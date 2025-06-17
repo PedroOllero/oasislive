@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "titulo": "Casa en el centro",
+    "descripcion": "Hermosa casa de 3 habitaciones en el corazón de la ciudad.",
+    "precio": "150.000 €",
+    "ubicacion": "Ciudad Centro",
+    "imagen": "/images/casa1.jpg"
+  },
+  {
+    "id": 2,
+    "titulo": "Casa con jardín",
+    "descripcion": "Amplia casa con jardín y garaje para 2 autos.",
+    "precio": "200.000 €",
+    "ubicacion": "Barrio Norte",
+    "imagen": "/images/casa2.jpg"
+  }
+]

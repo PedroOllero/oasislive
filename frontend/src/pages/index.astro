@@ -1,0 +1,18 @@
+---
+import casas from '../data/casas.json';
+import CasaCard from '../components/CasaCard.astro';
+import "../styles/tailwind.css";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Oasis Vive</title>
+  </head>
+  <body class="font-sans px-6 py-10 max-w-6xl mx-auto bg-amber-100">
+    <h1 class="text-3xl font-bold mb-6">Oasis Vive</h1>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {casas.map((casa) => <CasaCard casa={casa} />)}
+    </div>
+  </body>
+</html>
