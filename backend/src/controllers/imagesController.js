@@ -1,5 +1,5 @@
 import cloudinary from '../utils/cloudinary.js';
-import { addImage } from '../models/imageModel.js';
+import { addImage, getImagesByHouseId } from '../models/imageModel.js';
 
 export async function uploadImage(req, res) {
   try {
@@ -25,4 +25,10 @@ export async function uploadImage(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+}
+
+export async function getImage(req, res) {
+  const image = await getImagesByHouseId(req.params.id);
+  if (!image) return res.status(404).json({ error: "House not found" });
+  res.json(image);
 }

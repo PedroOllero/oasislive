@@ -2,12 +2,26 @@ import { openDb } from "./db.js";
 
 export async function getAllHouses() {
   const db = await openDb();
-  return db.all("SELECT * FROM houses");
+  const houses = await db.all("SELECT * FROM houses");
+
+  for (const house of houses) {
+    const images = await db.all("SELECT * FROM images WHERE house_id = ?", [house.id]);
+    house.images = images;
+  }
+
+  return houses;
 }
 
 export async function getHouseById(id) {
   const db = await openDb();
-  return db.get("SELECT * FROM houses WHERE id = ?", [id]);
+  const house = await db.get("SELECT * FROM houses WHERE id = ?", [id]);
+
+  if (house) {
+    const images = await db.all("SELECT * FROM images WHERE house_id = ?", [id]);
+    house.images = images; // Agregar las imágenes al objeto de la casa
+  }
+
+  return house;
 }
 
 export async function insertHouse(data) {
