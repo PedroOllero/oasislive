@@ -1,0 +1,51 @@
+---
+import "../../styles/tailwind.css";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+const PORT = process.env.PORT || 3001;
+const res = await fetch(`http://localhost:${PORT}/api/houses/${id}`);
+if (!res.ok) {
+  throw new Error('House not found');
+}
+const house = await res.json();
+---
+
+<html lang="en">
+  <head>
+    <title>{house.title} | OasisLive</title>
+    <meta name="description" content={house.description} />
+  </head>
+  <body class="p-4 max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4 text-amber-500">{house.title}</h1>
+
+    {house.images?.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        {house.images.map((img) => (
+          <img src={img.url} alt={house.title} class="rounded shadow" />
+        ))}
+      </div>
+    ) : (
+      <p class="text-gray-500 mb-6">No images available.</p>
+    )}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+      <div><strong>Price:</strong> {house.price.toLocaleString()} €</div>
+      <div><strong>Address:</strong> {house.address}</div>
+      <div><strong>Bedrooms:</strong> {house.bedrooms}</div>
+      <div><strong>Bathrooms:</strong> {house.bathrooms}</div>
+      <div><strong>Total Area:</strong> {house.total_area} m²</div>
+      <div><strong>Living Area:</strong> {house.living_area} m²</div>
+      <div><strong>Garage:</strong> {house.garage ? 'Yes' : 'No'}</div>
+      <div><strong>Terrace:</strong> {house.terrace ? 'Yes' : 'No'}</div>
+      <div><strong>Year Built:</strong> {house.year_built}</div>
+      <div><strong>Available:</strong> {house.active ? 'Yes' : 'No'}</div>
+      <div><strong>Rentable:</strong> {house.rentable ? 'Yes' : 'No'}</div>
+    </div>
+
+    <p class="mt-6 text-gray-700">{house.description}</p>
+
+    <a href="/" class="mt-8 inline-block text-blue-600 hover:underline">← Back to Home</a>
+  </body>
+</html>
