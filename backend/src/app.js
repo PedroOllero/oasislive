@@ -22,6 +22,7 @@ app.use(express.json());
 // Routes
 app.use('/api/houses', houseRoutes);
 app.use('/api/images', imageRoutes);
+app.use('/images', imageRoutes);
 
 // Start server
 app.listen(PORT, async () => {
