@@ -4,6 +4,7 @@ import {
   insertHouse,
   updateHouseById,
   insertHouseImages,
+  deleteHouseById,
 } from "../models/houseModel.js";
 
 export async function listHouses(req, res) {
@@ -42,5 +43,18 @@ export async function updateHouse(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to update house" });
+  }
+}
+
+export async function deleteHouse(req, res) {
+  try {
+    const deleted = await deleteHouseById(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: "House not deleted" });
+    }
+    res.json({ message: "House deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to delete house" });
   }
 }

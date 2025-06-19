@@ -4,7 +4,7 @@ import "../styles/tailwind.css";
 import type { House } from '../model/house';
 const PORT = process.env.PORT || 3001;
 
-const response = await fetch(`http://localhost:${PORT}/api/houses`);
+const response = await fetch(`http://localhost:${PORT}/houses`);
 const houses = await response.json();
 ---
 

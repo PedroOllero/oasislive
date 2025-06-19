@@ -34,7 +34,7 @@ const seedImages = async () => {
         });
 
         await db.run(
-          'INSERT INTO images (url, house_Id) VALUES (?, ?)',
+          'INSERT INTO images (url, houseId) VALUES (?, ?)',
           result.secure_url,
           house.id
         );

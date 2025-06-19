@@ -1,5 +1,5 @@
 export interface HouseImage {
     id: number;
-    house_id: number;
+    houseId: number;
     url: string;     
   }

@@ -5,8 +5,8 @@ export async function getAllHouses() {
   const houses = await db.all("SELECT * FROM houses");
 
   for (const house of houses) {
-    const images = await db.all("SELECT * FROM images WHERE house_id = ?", [house.id]);
-    house.images = images;
+    const images = await db.all("SELECT * FROM images WHERE houseId = ?", [house.id]);
+    house.houseImage = images;
   }
 
   return houses;
@@ -17,8 +17,8 @@ export async function getHouseById(id) {
   const house = await db.get("SELECT * FROM houses WHERE id = ?", [id]);
 
   if (house) {
-    const images = await db.all("SELECT * FROM images WHERE house_id = ?", [id]);
-    house.images = images; // Agregar las imágenes al objeto de la casa
+    const images = await db.all("SELECT * FROM images WHERE houseId = ?", [id]);
+    house.houseImage = images; // Agregar las imágenes al objeto de la casa
   }
 
   return house;
@@ -40,6 +40,7 @@ export async function insertHouse(data) {
     active,
     rentable,
     year_built,
+    houseImage
   } = data;
 
   const result = await db.run(
@@ -63,6 +64,7 @@ export async function insertHouse(data) {
       active ? 1 : 0,
       rentable ? 1 : 0,
       year_built,
+      houseImage
     ]
   );
 
@@ -74,7 +76,7 @@ export async function insertHouseImages(houseId, images) {
   for (const img of images) {
     await db.run(
       `
-      INSERT INTO images (house_id, url, alt, order_index)
+      INSERT INTO images (houseId, url, alt, order_index)
       VALUES (?, ?, ?, ?)
     `,
       [houseId, img.url, img.alt, img.order_index || 0]
@@ -98,6 +100,7 @@ export async function updateHouseById(id, data) {
     active,
     rentable,
     year_built,
+    houseImage
   } = data;
 
   const result = await db.run(
@@ -122,9 +125,34 @@ export async function updateHouseById(id, data) {
       active ? 1 : 0,
       rentable ? 1 : 0,
       year_built,
+      houseImage,
       id,
     ]
   );
+
+  return result.changes > 0;
+}
+
+export async function updateHouseImage(houseId, imageUrl) {
+  const db = await openDb();
+  const result = await db.run(
+    `
+    UPDATE houses
+    SET img = ?
+    WHERE id = ?
+    `,
+    [imageUrl, houseId]
+  );
+
+  return result.changes > 0; // Devuelve `true` si se actualizó correctamente
+}
+
+export async function deleteHouseById(id) {
+  const db = await openDb();
+
+  await db.run("DELETE FROM images WHERE houseId = ?", [id]);
+
+  const result = await db.run("DELETE FROM houses WHERE id = ?", [id]);
 
   return result.changes > 0;
 }

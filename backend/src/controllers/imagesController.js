@@ -1,9 +1,10 @@
 import cloudinary from '../utils/cloudinary.js';
 import { addImage, getImagesByHouseId } from '../models/imageModel.js';
+import { updateHouseImage } from '../models/houseModel.js';
 
 export async function uploadImage(req, res) {
   try {
-    const houseId = req.params.houseId;
+    const houseId = req.houseId;
     const file = req.file;
 
     if (!file) {
@@ -15,9 +16,10 @@ export async function uploadImage(req, res) {
       async (error, result) => {
         if (error) return res.status(500).json({ error });
 
-        await addImage(houseId, result.secure_url);
+        // Actualizar la columna `img` en la tabla `houses`
+        await updateHouseImage(houseId, result.secure_url);
 
-        res.status(200).json({ message: 'Image uploaded', url: result.secure_url });
+        res.status(200).json({ message: 'Image uploaded and saved to house', url: result.secure_url });
       }
     );
 
@@ -28,7 +30,13 @@ export async function uploadImage(req, res) {
 }
 
 export async function getImage(req, res) {
-  const image = await getImagesByHouseId(req.params.id);
-  if (!image) return res.status(404).json({ error: "House not found" });
-  res.json(image);
+  try {
+    const images = await getImagesByHouseId(req.params.id); // Asegúrate de que `id` sea el parámetro correcto
+    if (!images || images.length === 0) {
+      return res.status(404).json({ error: "No images found for this house" });
+    }
+    res.status(200).json(images);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }

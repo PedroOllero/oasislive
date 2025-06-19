@@ -5,7 +5,7 @@ import { uploadImage, getImage } from '../controllers/imagesController.js';
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.post('/:house_Id', upload.single('image'), uploadImage);
-router.get('/:house_Id', getImage);
+router.post('/', upload.single('image'), uploadImage);
+router.get('/:id', getImage);
 
 export default router;

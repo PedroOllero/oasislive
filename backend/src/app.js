@@ -20,8 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/houses', houseRoutes);
-app.use('/api/images', imageRoutes);
+app.use('/houses', houseRoutes);
 app.use('/images', imageRoutes);
 
 // Start server

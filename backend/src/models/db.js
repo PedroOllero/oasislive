@@ -35,11 +35,11 @@ export async function openDb() {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS images (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      house_id INTEGER,
+      houseId INTEGER,
       url TEXT,
       alt TEXT,
       order_index INTEGER,
-      FOREIGN KEY (house_id) REFERENCES houses(id)
+      FOREIGN KEY (houseId) REFERENCES houses(id)
     );
   `);
 
