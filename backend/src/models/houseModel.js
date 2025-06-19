@@ -18,7 +18,7 @@ export async function getHouseById(id) {
 
   if (house) {
     const images = await db.all("SELECT * FROM images WHERE houseId = ?", [id]);
-    house.houseImage = images; // Agregar las imágenes al objeto de la casa
+    house.houseImage = images;
   }
 
   return house;
@@ -144,7 +144,7 @@ export async function updateHouseImage(houseId, imageUrl) {
     [imageUrl, houseId]
   );
 
-  return result.changes > 0; // Devuelve `true` si se actualizó correctamente
+  return result.changes > 0;
 }
 
 export async function deleteHouseById(id) {
