@@ -13,8 +13,16 @@ const houses = await response.json();
     <meta charset="UTF-8" />
     <title>Oasis Vive</title>
   </head>
-  <body class="font-sans px-6 py-10 max-w-6xl mx-auto bg-amber-100">
-    <h1 class="text-3xl font-bold mb-6">Oasis Vive</h1>
+  <body class="font-sans bg-primary-600">
+    <header class="h-20 bg-primary-600 flex justify-between">
+      <h1>LOGO</h1>
+      <nav class="h-20 flex">
+        <ul class="flex row h-20">
+          <li class="bg-primary-500 text-white font-bold flex justify-center items-center text-center px-5">CONTACTA CON NOSOTROS</li>
+          <li class="bg-primary-400 text-white font-bold flex justify-center items-center text-center px-5">QUIERO VENDER</li>
+        </ul>
+      </nav>
+    </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
       {houses.map((house: House) => (
