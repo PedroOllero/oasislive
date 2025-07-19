@@ -1,11 +1,11 @@
 const Form = () => {
+
   const submit = async (event) => {
-    event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+    event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
 
-    // Paso 1: Crear la casa
     const houseData = {
       title: formData.get("title"),
       price: Number(formData.get("price")),
@@ -28,7 +28,10 @@ const Form = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(houseData),
-    });
+    }).catch(()=>{
+      console.log("Error during posting house")
+      alert("Error during posting house")
+    })
 
     const house = await res.json();
     const houseId = house.id;
@@ -44,7 +47,10 @@ const Form = () => {
       await fetch(`http://localhost:${PORT}/images/${houseId}`, {
         method: "POST",
         body: cloudinaryForm,
-      });
+      }).catch(()=>{
+        console.log("Error during posting images")
+        alert("Error during posting images")
+      })
 
       console.log(file.name, file.size, file.type);
     }
@@ -52,18 +58,20 @@ const Form = () => {
     alert("House created with images!");
     console.log(houseData);
     console.log(imageFiles);
+
+    window.location.href = "/";
   };
 
   return (
     <form
       onSubmit={submit}
-      className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg grid gap-4"
+      className="max-w-2xl mx-auto mt-10 p-6 bg-accent-300 shadow-md rounded-lg grid gap-4"
       encType="multipart/form-data"
     >
       <input
         type="text"
         name="title"
-        placeholder="Title"
+        placeholder="Nombre de la casa"
         required
         className="input"
       />
@@ -131,10 +139,10 @@ const Form = () => {
         <input type="checkbox" name="terrace" />
         Terrace
       </label>
-      <input type="file" name="images" multiple className="input" />
+      <input type="file" name="images" multiple className="input bg-red-400" />
       <button
         type="submit"
-        className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        className="bg-accent-400 text-white py-2 px-4 rounded hover:bg-white hover:text-black"
       >
         Create House
       </button>
