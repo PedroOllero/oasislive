@@ -14,20 +14,24 @@ const houses = await response.json();
     <title>Oasis Vive</title>
   </head>
   <body class="font-sans bg-primary-600">
-    <header class="h-20 bg-primary-600 flex justify-between">
+    <header class="h-20 bg-primary-600 flex justify-between shadow-md">
       <h1>LOGO</h1>
-      <nav class="h-20 flex">
-        <ul class="flex row h-20">
-          <li class="bg-primary-500 text-white font-bold flex justify-center items-center text-center px-5">CONTACTA CON NOSOTROS</li>
-          <li class="bg-primary-400 text-white font-bold flex justify-center items-center text-center px-5">QUIERO VENDER</li>
+        <ul class="flex h-20">
+          <li class="bg-primary-500 text-white font-bold flex justify-center items-center text-center px-5">QUIERO VENDER</li>
+          <li class="bg-primary-400 text-white font-bold flex justify-center items-center text-center px-5">CONTACTA CON NOSOTROS</li>
         </ul>
-      </nav>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
-      {houses.map((house: House) => (
-        <HouseCard house={house} />
-      ))}
+    <div class="flex-col bg-accent-300">
+      <nav class="flex h-20">
+        <button class="bg-accent-400 text-white font-bold flex justify-center items-center text-center px-10">COMPRAR</button>
+        <button class="bg-accent-500 text-white font-bold flex justify-center items-center text-center px-10">ALQUILAR</button>
+      </nav>
+      <div class="flex ">
+        {houses.map((house: House) => (
+          <HouseCard house={house} />
+        ))}
+        </div>
     </div>
     
   </body>
