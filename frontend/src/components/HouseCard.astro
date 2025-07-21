@@ -1,14 +1,23 @@
 ---
-const { house }: { house: House } = Astro.props || {
+const { house }: { house: House } = {
   house: {
-    id: "",
+    id: 0,
     title: "",
     address: "",
     price: 0,
     description: "",
     bedrooms: 0,
     bathrooms: 0,
+    total_area: 0,
+    living_area: 0,
+    garage: false,
+    terrace: false,
+    active: false,
+    rentable: false,
+    construction_year: 0,
+    images: []
   },
+  ...Astro.props,
 };
 
 import DeleteButton from "../components/deleteButton.jsx";

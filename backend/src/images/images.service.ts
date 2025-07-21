@@ -59,4 +59,24 @@ export class ImagesService {
 
     return house.images;
   }
+
+  private extractPublicIdFromUrl(url: string): string | null {
+    const match = url.match(/\/v\d+\/(.+)\.[a-z]+$/);
+    return match ? match[1] : null;
+  }
+
+  async deleteImagesByHouseId(houseId: number) {
+    const images = await this.imageRepository.find({
+      where: { house: { id: houseId } },
+    });
+
+    for (const img of images) {
+      const publicId = this.extractPublicIdFromUrl(img.url);
+      if (publicId) {
+        await cloudinary.uploader.destroy(publicId);
+      }
+    }
+
+    await this.imageRepository.delete({ house: { id: houseId } });
+  }
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { House } from './house.entity';
 import { Image } from '../images/image.entity';
+import { ImagesService } from '../images/images.service';
 
 @Injectable()
 export class HousesService {
@@ -11,6 +12,7 @@ export class HousesService {
     private readonly houseRepository: Repository<House>,
     @InjectRepository(Image)
     private readonly imageRepository: Repository<Image>,
+    private readonly imagesService: ImagesService,
   ) {}
 
   async getAllHouses(): Promise<House[]> {
@@ -57,8 +59,8 @@ export class HousesService {
   }
 
   async deleteHouseById(id: number): Promise<boolean> {
+    await this.imagesService.deleteImagesByHouseId(id);
     const result = await this.houseRepository.delete(id);
     return result.affected > 0;
   }
 }
-

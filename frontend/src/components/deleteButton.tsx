@@ -1,4 +1,4 @@
-const Boton = ({id}) => {
+const Boton = ({id}: {id: number}) => {
     const PORT = import.meta.env.PUBLIC_API_PORT || 3001;
 
     const handleDelete = async () => {

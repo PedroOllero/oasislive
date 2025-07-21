@@ -9,5 +9,6 @@ import { House } from '../houses/house.entity.js';
   imports: [TypeOrmModule.forFeature([Image, House])],
   controllers: [ImagesController],
   providers: [ImagesService],
+  exports: [ImagesService],
 })
 export class ImagesModule {}
