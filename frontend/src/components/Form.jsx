@@ -38,28 +38,47 @@ const Form = () => {
 
     // Paso 2: Subir imágenes a Cloudinary
     const imageFiles = formData.getAll("images");
+    const uploadedImages = [];
 
     for (const file of imageFiles) {
       const cloudinaryForm = new FormData();
       cloudinaryForm.append("image", file);
       cloudinaryForm.append("houseId", String(houseId));
 
-      await fetch(`http://localhost:${PORT}/images/${houseId}`, {
+      const uploadRes = await fetch(`http://localhost:${PORT}/images/${houseId}`, {
         method: "POST",
         body: cloudinaryForm,
-      }).catch(()=>{
-        console.log("Error during posting images")
-        alert("Error during posting images")
-      })
+      }).catch(() => {
+        console.log("Error during posting images");
+        alert("Error during posting images");
+      });
 
-      console.log(file.name, file.size, file.type);
+      if (uploadRes && uploadRes.ok) {
+        const uploaded = await uploadRes.json();
+        uploadedImages.push({
+          url: uploaded.url,
+          alt: uploaded.alt || file.name,
+          order_index: uploadedImages.length,
+        });
+      }
     }
 
-    alert("House created with images!");
+    // Paso 3: Asociar imágenes a la casa
+    if (uploadedImages.length > 0) {
+      await fetch(`http://localhost:${PORT}/houses/${houseId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ images: uploadedImages }),
+      }).catch(() => {
+        console.log("Error attaching images to house");
+        alert("Error attaching images to house");
+      });
+    }
+
+    alert("House created with images!", houseData, "con imagenes", imageFiles);
     console.log(houseData);
     console.log(imageFiles);
-
-    window.location.href = "/";
+    // window.location.href = "/";
   };
 
   return (
@@ -138,6 +157,14 @@ const Form = () => {
       <label className="flex items-center gap-2">
         <input type="checkbox" name="terrace" />
         Terrace
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="active" />
+        Active
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="rentable" />
+        Rentable
       </label>
       <input type="file" name="images" multiple className="input bg-red-400" />
       <button

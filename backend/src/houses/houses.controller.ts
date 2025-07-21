@@ -56,6 +56,11 @@ export class HousesController {
       if (!updated) {
         throw new HttpException('House not found', HttpStatus.NOT_FOUND);
       }
+
+      if (body.images && body.images.length > 0) {
+        await this.housesService.insertHouseImages(+id, body.images);
+      }
+
       return { message: 'House updated successfully' };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {

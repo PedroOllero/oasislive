@@ -1,5 +1,7 @@
 export interface HouseImage {
     id: number;
-    houseId: number;
-    url: string;     
+    url: string;
+    alt: string;
+    orderIndex: number;
+    houseId: number;     
   }

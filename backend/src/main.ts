@@ -1,3 +1,4 @@
+import 'dotenv/config'; // Carga las variables de entorno al iniciar
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 

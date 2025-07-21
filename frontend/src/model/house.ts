@@ -1,3 +1,5 @@
+import type { HouseImage } from "./image";
+
 export interface House {
     id: number;
     title: string;
@@ -13,5 +15,5 @@ export interface House {
     active: boolean;
     rentable: boolean;
     year_built: number;
-    images: string[];
+    images: HouseImage[];
   }
