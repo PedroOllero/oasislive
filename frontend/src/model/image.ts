@@ -1,7 +1,14 @@
 export interface HouseImage {
-    id: number;
-    url: string;
-    alt: string;
-    orderIndex: number;
-    houseId: number;     
-  }
+  id: number;
+  url: string;
+  alt: string;
+  orderIndex: number;
+  houseId: number;
+}
+
+export interface HouseImageFormData {
+  url: string;
+  alt: string;
+  order_index: number;
+  houseId: number;
+}

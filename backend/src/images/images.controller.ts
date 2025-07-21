@@ -4,10 +4,11 @@ import {
   Get,
   Param,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
   Res,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { ImagesService } from './images.service';
 
@@ -36,6 +37,39 @@ export class ImagesController {
       res.status(200).json({
         message: 'Image uploaded and saved to house',
         url: result.url,
+      });
+    } catch (error) {
+      console.error('Server error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  @Post(':houseId/multiple')
+  @UseInterceptors(FilesInterceptor('images', 10)) // máximo 10 archivos
+  async uploadMultipleImages(
+    @Param('houseId') houseId: string,
+    @UploadedFiles() files: Express.Multer.File[],
+    @Res() res: Response,
+  ) {
+    try {
+      if (!files || files.length === 0) {
+        return res.status(400).json({ error: 'No files uploaded' });
+      }
+
+      const uploadResults = [];
+
+      for (const file of files) {
+        const result = await this.imagesService.uploadImage(
+          +houseId,
+          file.buffer,
+          file.originalname,
+        );
+        uploadResults.push(result);
+      }
+
+      res.status(200).json({
+        message: 'Images uploaded and saved to house',
+        results: uploadResults,
       });
     } catch (error) {
       console.error('Server error:', error);

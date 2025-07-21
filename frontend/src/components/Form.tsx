@@ -1,16 +1,36 @@
-const Form = () => {
+import React, { useState } from "react";
+import type { HouseFormData } from "../model/house";
+import type { HouseImageFormData } from "../model/image";
 
-  const submit = async (event) => {
+const Form = () => {
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const filesArray = Array.from(files);
+    const newFiles = selectedFiles.concat(filesArray);
+
+    if (newFiles.length > 10) {
+      alert("You can only upload up to 10 images.");
+      setSelectedFiles(newFiles.slice(0, 10));
+    } else {
+      setSelectedFiles(newFiles);
+    }
+  };
+
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form = event.target;
+    const form = event.currentTarget;
     const formData = new FormData(form);
 
-    const houseData = {
-      title: formData.get("title"),
+    const houseData: HouseFormData = {
+      title: formData.get("title") as string,
       price: Number(formData.get("price")),
-      description: formData.get("description"),
-      address: formData.get("address"),
+      description: formData.get("description") as string,
+      address: formData.get("address") as string,
       bedrooms: Number(formData.get("bedrooms")),
       bathrooms: Number(formData.get("bathrooms")),
       total_area: Number(formData.get("total_area")),
@@ -28,19 +48,23 @@ const Form = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(houseData),
-    }).catch(()=>{
-      console.log("Error during posting house")
-      alert("Error during posting house")
-    })
+    }).catch(() => {
+      console.log("Error during posting house");
+      alert("Error during posting house");
+    });
 
-    const house = await res.json();
+    const house = res ? await res.json() : null;
+    if (!house) {
+      console.log("Failed to fetch house data");
+      alert("Failed to fetch house data");
+      return;
+    }
     const houseId = house.id;
 
     // Paso 2: Subir imágenes a Cloudinary
-    const imageFiles = formData.getAll("images");
-    const uploadedImages = [];
+    const uploadedImages: HouseImageFormData[] = [];
 
-    for (const file of imageFiles) {
+    for (const file of selectedFiles) {
       const cloudinaryForm = new FormData();
       cloudinaryForm.append("image", file);
       cloudinaryForm.append("houseId", String(houseId));
@@ -57,8 +81,9 @@ const Form = () => {
         const uploaded = await uploadRes.json();
         uploadedImages.push({
           url: uploaded.url,
-          alt: uploaded.alt || file.name,
+          alt: houseData.title,
           order_index: uploadedImages.length,
+          houseId: houseId,
         });
       }
     }
@@ -75,10 +100,9 @@ const Form = () => {
       });
     }
 
-    alert("House created with images!", houseData, "con imagenes", imageFiles);
     console.log(houseData);
-    console.log(imageFiles);
-    // window.location.href = "/";
+    console.log(selectedFiles);
+    window.location.href = "/";
   };
 
   return (
@@ -166,7 +190,30 @@ const Form = () => {
         <input type="checkbox" name="rentable" />
         Rentable
       </label>
-      <input type="file" name="images" multiple className="input bg-red-400" />
+      <input
+        type="file"
+        name="images"
+        multiple
+        accept="image/*"
+        className="input bg-red-400"
+        onChange={handleFileChange}
+      />
+      {selectedFiles.length > 0 && (
+        <div className="grid grid-cols-5 gap-2 mt-2">
+          {selectedFiles.map((file, index) => {
+            const url = URL.createObjectURL(file);
+            return (
+              <img
+                key={index}
+                src={url}
+                alt={`preview-${index}`}
+                className="w-full h-20 object-cover rounded"
+                onLoad={() => URL.revokeObjectURL(url)}
+              />
+            );
+          })}
+        </div>
+      )}
       <button
         type="submit"
         className="bg-accent-400 text-white py-2 px-4 rounded hover:bg-white hover:text-black"
