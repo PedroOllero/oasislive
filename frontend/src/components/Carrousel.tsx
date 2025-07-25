@@ -32,7 +32,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             <div key={img.id} className="w-full flex-shrink-0">
               <img
                 src={img.url}
-                alt="House image"
+                alt="House"
                 className="w-full h-full object-cover"
               />
             </div>

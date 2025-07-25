@@ -16,13 +16,13 @@ const houses = await response.json();
   </head>
   <body class="font-sans bg-primary-600">
     <Header/>
-
-    <div class="flex-col bg-accent-500">
+    <div class="flex-col bg-accent-500 mt-30 lg:mt-20">
       <nav class="flex h-20">
         <button class="bg-accent-400 text-white font-bold flex justify-center items-center text-center px-10">COMPRAR</button>
         <button class="bg-accent-500 text-white font-bold flex justify-center items-center text-center px-10">ALQUILAR</button>
       </nav>
-      <div class="flex ">
+      
+      <div class="justify-items-center">
         {houses.map((house: House) => (
           <HouseCard house={house} />
         ))}
