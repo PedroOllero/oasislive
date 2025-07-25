@@ -2,6 +2,7 @@
 import HouseCard from '../components/HouseCard.astro';
 import "../styles/tailwind.css";
 import type { House } from '../model/house';
+import Header from '../components/Header.astro';
 const PORT = process.env.PORT || 3001;
 
 const response = await fetch(`http://localhost:${PORT}/houses`);
@@ -14,15 +15,9 @@ const houses = await response.json();
     <title>Oasis Vive</title>
   </head>
   <body class="font-sans bg-primary-600">
-    <header class="h-20 bg-primary-600 flex justify-between shadow-md">
-      <h1>LOGO</h1>
-        <ul class="flex h-20">
-          <li class="bg-primary-500 text-white font-bold flex justify-center items-center text-center px-5">QUIERO VENDER</li>
-          <li class="bg-primary-400 text-white font-bold flex justify-center items-center text-center px-5">CONTACTA CON NOSOTROS</li>
-        </ul>
-    </header>
+    <Header/>
 
-    <div class="flex-col bg-accent-300">
+    <div class="flex-col bg-accent-500">
       <nav class="flex h-20">
         <button class="bg-accent-400 text-white font-bold flex justify-center items-center text-center px-10">COMPRAR</button>
         <button class="bg-accent-500 text-white font-bold flex justify-center items-center text-center px-10">ALQUILAR</button>

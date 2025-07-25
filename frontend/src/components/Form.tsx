@@ -108,7 +108,7 @@ const Form = () => {
   return (
     <form
       onSubmit={submit}
-      className="max-w-2xl mx-auto mt-10 p-6 bg-accent-300 shadow-md rounded-lg grid gap-4"
+      className="max-w-2xl mx-auto mt-10 p-6 bg-accent-500 shadow-md rounded-lg grid gap-4"
       encType="multipart/form-data"
     >
       <input

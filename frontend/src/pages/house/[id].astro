@@ -1,5 +1,17 @@
 ---
 import "../../styles/tailwind.css";
+import Header from "../../components/Header.astro";
+import Carrousel from "../../components/Carrousel";
+import BedIcon from "../../components/icons/BedIcon.astro";
+import BathIcon from "../../components/icons/BathIcon.astro";
+import RulerIcon from "../../components/icons/RulerIcon.astro";
+import RulerLineIcon from "../../components/icons/RulerLineIcon.astro";
+import CarIcon from "../../components/icons/CarIcon.astro";
+import FenceIcon from "../../components/icons/FenceIcon.astro";
+import HammerIcon from "../../components/icons/HammerIcon.astro";
+import BackHeroButton from "../../components/BackHeroButton.tsx";
+import type { House } from "../../model/house";
+import type { HouseImage } from "../../model/image";
 
 export const prerender = false;
 
@@ -7,45 +19,98 @@ const { id } = Astro.params;
 const PORT = process.env.PORT || 3001;
 const res = await fetch(`http://localhost:${PORT}/houses/${id}`);
 if (!res.ok) {
-  throw new Error('House not found');
+  throw new Error("House not found");
 }
-const house = await res.json();
+const house: House = await res.json();
+const imagesArray: HouseImage[] = [...house.images];
+
+const onBackButton = () => {
+  window.location.href = "/";
+}
 ---
 
-<html lang="en">
+<html lang="es">
   <head>
+    <meta charset="UTF-8" />
     <title>{house.title} | OasisLive</title>
     <meta name="description" content={house.description} />
   </head>
-  <body class="p-4 max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-4 text-amber-500">{house.title}</h1>
+  <body class="bg-primary-600">
+    <Header />
+    <main class="justify-items-center mt-20">
+      <div class="bg-accent-500 w-full lg:w-200">
+        {
+          house.images?.length > 0 ? (
+            <Carrousel client:load images={imagesArray} />
+          ) : (
+            <p class="text-gray-500 mb-6">No images available.</p>
+          )
+        }
+        <div class="px-4 py-8 lg:py-4">
+          <h1 class="text-7xl lg:text-4xl font-bold text-white">
+            {house.title}
+          </h1>
+          <p class="pt-8 lg:pt-2 pb-2 text-7xl lg:text-5xl font-extrabold">
+            {house.price.toLocaleString()} €
+          </p>
+          <h2 class="text-3xl lg:text-base text-accent-200">{house.address}</h2>
+          <p class="mt-2 lg:mt-0 text-3xl lg:text-base text-accent-300">
+            {house.living_area} m² | {house.bedrooms} hab.
+          </p>
+          <p class="mt-10 lg:mt-5 mb-4 lg:mb-0 font-bold text-4xl lg:text-base">
+            Descripción del vendedor:
+          </p>
+          <h3 class="text-4xl lg:text-base">{house.description}</h3>
 
-    {house.images?.length > 0 ? (
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        {house.images.map((img) => (
-          <img src={img.url} alt={house.title} class="w-56 rounded shadow" />
-        ))}
+          <p class="mt-10 lg:mt-5 mb-4 lg:mb-0 font-bold text-4xl lg:text-base">
+            Características básicas:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 px-4 py-4">
+            <div class="houseProp">
+              <BedIcon /><p class="pl-4">{house.bedrooms} cuartos</p>
+            </div>
+
+            <div class="houseProp">
+              <BathIcon /><p class="pl-4">{house.bedrooms} baños</p>
+            </div>
+
+            <div class="houseProp">
+              <RulerIcon /><p class="pl-4">
+                {house.total_area} m² de area total
+              </p>
+            </div>
+
+            <div class="houseProp">
+              <RulerLineIcon />
+              <p class="pl-4">{house.living_area} m² de area habitable</p>
+            </div>
+
+            {
+              house.garage && (
+                <div class="houseProp">
+                  <CarIcon />
+                  <p class="pl-4">Garaje incluido</p>
+                </div>
+              )
+            }
+
+            {
+              house.terrace && (
+                <div class="houseProp">
+                  <FenceIcon />
+                  <p class="pl-4">Terraza</p>
+                </div>
+              )
+            }
+
+            <div class="houseProp">
+              <HammerIcon /><p class="pl-4">Se construyó en {house.construction_year}</p>
+            </div>
+
+            <BackHeroButton client:load>
+          </div>
+        </div>
       </div>
-    ) : (
-      <p class="text-gray-500 mb-6">No images available.</p>
-    )}
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-      <div><strong>Price:</strong> {house.price.toLocaleString()} €</div>
-      <div><strong>Address:</strong> {house.address}</div>
-      <div><strong>Bedrooms:</strong> {house.bedrooms}</div>
-      <div><strong>Bathrooms:</strong> {house.bathrooms}</div>
-      <div><strong>Total Area:</strong> {house.total_area} m²</div>
-      <div><strong>Living Area:</strong> {house.living_area} m²</div>
-      <div><strong>Garage:</strong> {house.garage ? 'Yes' : 'No'}</div>
-      <div><strong>Terrace:</strong> {house.terrace ? 'Yes' : 'No'}</div>
-      <div><strong>Year Built:</strong> {house.year_built}</div>
-      <div><strong>Available:</strong> {house.active ? 'Yes' : 'No'}</div>
-      <div><strong>Rentable:</strong> {house.rentable ? 'Yes' : 'No'}</div>
-    </div>
-
-    <p class="mt-6 text-gray-700">{house.description}</p>
-
-    <a href="/" class="mt-8 inline-block text-blue-600 hover:underline">← Back to Home</a>
+    </main>
   </body>
 </html>
