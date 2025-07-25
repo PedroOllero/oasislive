@@ -2,9 +2,9 @@ const BackHeroButton = () => {
   return (
     <button
       onClick={() => (window.location.href = "/")}
-      className="text-white underline mt-4"
+      className="px-4 py-4 text-white text-6xl mt-4 bg-primary-400"
     >
-      ← Back to Home
+    Volver al inicio
     </button>
   );
 };

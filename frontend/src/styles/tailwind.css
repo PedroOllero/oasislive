@@ -113,4 +113,7 @@
   .houseProp {
     @apply flex flex-row items-center;
   }
+  .housePropText {
+    @apply pl-8 lg:pl-4 text-4xl lg:text-base;
+  }
 }

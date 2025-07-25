@@ -9,9 +9,10 @@ import RulerLineIcon from "../../components/icons/RulerLineIcon.astro";
 import CarIcon from "../../components/icons/CarIcon.astro";
 import FenceIcon from "../../components/icons/FenceIcon.astro";
 import HammerIcon from "../../components/icons/HammerIcon.astro";
-import BackHeroButton from "../../components/BackHeroButton.tsx";
 import type { House } from "../../model/house";
 import type { HouseImage } from "../../model/image";
+import MapLoader from "../../components/MapLoader.tsx";
+import QuickCall from "../../components/QuickCall.astro";
 
 export const prerender = false;
 
@@ -23,10 +24,6 @@ if (!res.ok) {
 }
 const house: House = await res.json();
 const imagesArray: HouseImage[] = [...house.images];
-
-const onBackButton = () => {
-  window.location.href = "/";
-}
 ---
 
 <html lang="es">
@@ -67,29 +64,29 @@ const onBackButton = () => {
           </p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 px-4 py-4">
             <div class="houseProp">
-              <BedIcon /><p class="pl-4">{house.bedrooms} cuartos</p>
+              <div class="scale-200 lg:scale-100"><BedIcon /></div><p class="housePropText">{house.bedrooms} cuartos</p>
             </div>
 
             <div class="houseProp">
-              <BathIcon /><p class="pl-4">{house.bedrooms} baños</p>
+              <div class="scale-200 lg:scale-100"><BathIcon /></div><p class="housePropText">{house.bedrooms} baños</p>
             </div>
 
             <div class="houseProp">
-              <RulerIcon /><p class="pl-4">
+              <div class="scale-200 lg:scale-100"><RulerIcon /></div><p class="housePropText">
                 {house.total_area} m² de area total
               </p>
             </div>
 
             <div class="houseProp">
-              <RulerLineIcon />
-              <p class="pl-4">{house.living_area} m² de area habitable</p>
+              <div class="scale-200 lg:scale-100"><RulerLineIcon /></div>
+              <p class="housePropText">{house.living_area} m² de area habitable</p>
             </div>
 
             {
               house.garage && (
                 <div class="houseProp">
-                  <CarIcon />
-                  <p class="pl-4">Garaje incluido</p>
+                  <div class="scale-200 lg:scale-100"><CarIcon /></div>
+                  <p class="housePropText">Garaje incluido</p>
                 </div>
               )
             }
@@ -97,20 +94,25 @@ const onBackButton = () => {
             {
               house.terrace && (
                 <div class="houseProp">
-                  <FenceIcon />
-                  <p class="pl-4">Terraza</p>
+                  <div class="scale-200 lg:scale-100"><FenceIcon /></div>
+                  <p class="housePropText">Terraza</p>
                 </div>
               )
             }
 
             <div class="houseProp">
-              <HammerIcon /><p class="pl-4">Se construyó en {house.construction_year}</p>
+              <div class="scale-200 lg:scale-100"><HammerIcon /></div><p class="housePropText">Se construyó en {house.construction_year}</p>
             </div>
 
-            <BackHeroButton client:load>
           </div>
+          
+          <div id="map-container"  class="z-10">
+            <MapLoader client:only="react" address={house.address}/>
+          </div>
+
         </div>
       </div>
     </main>
+    <QuickCall/>
   </body>
 </html>

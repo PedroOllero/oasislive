@@ -22,8 +22,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   };
 
   return (
-    <div className="relative w-full object-cover mx-auto overflow-hidden shadow-md">
-      <div className="relative h-64 md:h-80 lg:h-[30rem]">
+    <div className="relative w-full mx-auto overflow-hidden shadow-md">
+      <div className="relative lg:h-[30rem] md:h-[40rem]">
         <div
           className="flex transition-transform duration-300 ease-in-out h-full"
           style={{ transform: `translateX(-${current * 100}%)` }}
@@ -33,7 +33,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
               <img
                 src={img.url}
                 alt="House image"
-                className="w-full h-full aspect-square object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
           ))}
