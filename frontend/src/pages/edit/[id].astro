@@ -1,0 +1,21 @@
+---
+import EditForm from "../../components/EditForm";
+import "../../styles/tailwind.css";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+const res = await fetch(`http://localhost:3001/houses/${id}`);
+const house = await res.json();
+---
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{house.title} | OasisLive</title>
+    <meta name="description" content={house.description} />
+  </head>
+  <body class="bg-primary-600">
+    <p>Editar</p>
+    <EditForm client:only="react" houseId={Number(id)} />
+  </body>
+</html>

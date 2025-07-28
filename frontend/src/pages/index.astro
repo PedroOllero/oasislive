@@ -1,8 +1,8 @@
 ---
-import HouseCard from '../components/HouseCard.astro';
+import HouseCard from "../components/HouseCard.astro";
 import "../styles/tailwind.css";
-import type { House } from '../model/house';
-import Header from '../components/Header.astro';
+import type { House } from "../model/house";
+import Header from "../components/Header.astro";
 const PORT = process.env.PORT || 3001;
 
 const response = await fetch(`http://localhost:${PORT}/houses`);
@@ -13,21 +13,74 @@ const houses = await response.json();
   <head>
     <meta charset="UTF-8" />
     <title>Oasis Vive</title>
+    <script type="module">
+      window.houseView = {
+        showRentable: false,
+        toggleRentable() {
+          this.showRentable = !this.showRentable;
+          document
+            .getElementById("rentable")
+            .classList.toggle("hidden", !this.showRentable);
+          document
+            .getElementById("non-rentable")
+            .classList.toggle("hidden", this.showRentable);
+          document
+            .getElementById("nav")
+            .classList.toggle("translate-x-0", !this.showRentable);
+          document
+            .getElementById("nav")
+            .classList.toggle("translate-x-[68%]", this.showRentable);
+          document
+            .getElementById("nav")
+            .classList.toggle("lg:translate-x-[80%]", this.showRentable);
+          document
+            .getElementById("content")
+            .classList.toggle("is-rentable", this.showRentable);
+        },
+      };
+    </script>
+    <style>
+      #content.is-rentable {
+        background-color: #7fa92a; /* no funciona aquí, así que sustituye directamente */
+        background-color: #7fa92a !important; /* ejemplo de accent-400 */
+      }
+    </style>
   </head>
   <body class="font-sans bg-primary-600">
-    <Header/>
-    <div class="flex-col bg-accent-500 mt-30 lg:mt-20">
-      <nav class="flex h-20">
-        <button class="bg-accent-400 text-white font-bold flex justify-center items-center text-center px-10">COMPRAR</button>
-        <button class="bg-accent-500 text-white font-bold flex justify-center items-center text-center px-10">ALQUILAR</button>
+    <Header />
+    <main
+      id="content"
+      class="flex-col mt-30 lg:mt-20 transition-all duration-500 ease-in-out bg-accent-500"
+    >
+      <nav
+        id="nav"
+        class="flex h-20 transition-transform duration-500 ease-in-out transform"
+      >
+        <button
+          class="bg-accent-400 text-white font-bold flex justify-center items-center text-center px-10 cursor-pointer"
+          onclick="houseView.toggleRentable()">COMPRAR</button
+        >
+        <button
+          class="bg-accent-500 text-white font-bold flex justify-center items-center text-center px-10 cursor-pointer"
+          onclick="houseView.toggleRentable()">ALQUILAR</button
+        >
       </nav>
-      
-      <div class="justify-items-center">
-        {houses.map((house: House) => (
-          <HouseCard house={house} />
-        ))}
-        </div>
-    </div>
-    
+
+      <div id="non-rentable" class="justify-items-center bg-accent-400 py-5">
+        {
+          houses
+            .filter((house: House) => house.rentable === false)
+            .map((house: House) => <HouseCard key={house.id} house={house} />)
+        }
+      </div>
+
+      <div id="rentable" class="justify-items-center bg-accent-500 py-5 hidden">
+        {
+          houses
+            .filter((house: House) => house.rentable === true)
+            .map((house: House) => <HouseCard key={house.id} house={house} />)
+        }
+      </div>
+    </main>
   </body>
 </html>

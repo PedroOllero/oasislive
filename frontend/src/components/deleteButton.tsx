@@ -10,8 +10,8 @@ const Boton = ({id}: {id: number}) => {
         })
     };
     return (
-      <button className="z-30 bg-red-300" onClick={handleDelete}>
-        Click aquí
+      <button className="z-30 bg-red-300 mt-8" onClick={handleDelete}>
+        Borrar esta casa
       </button>
     );
   };

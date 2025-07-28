@@ -19,6 +19,7 @@ export interface House {
 }
 
 export interface HouseFormData {
+  id?: number;
   title: string;
   price: number;
   description: string;

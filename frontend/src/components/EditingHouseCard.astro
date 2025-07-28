@@ -1,0 +1,51 @@
+---
+import ModifyButton from "../components/ModifyButton.tsx"
+
+const { house }: { house: House } = {
+  house: {
+    id: 0,
+    title: "",
+    address: "",
+    price: 0,
+    description: "",
+    bedrooms: 0,
+    bathrooms: 0,
+    total_area: 0,
+    living_area: 0,
+    garage: false,
+    terrace: false,
+    active: false,
+    rentable: false,
+    construction_year: 0,
+    images: []
+  },
+  ...Astro.props,
+};
+
+import DeleteButton from "../components/deleteButton.jsx";
+import type { House } from "../model/house";
+import type { HouseImage } from "../model/image";
+
+const houseImages: HouseImage[] = house.images.map((item) => {
+  return item;
+});
+---
+
+<article class="bg-primary-600 mb-5 justify-center items-start flex flex-row">
+    {house.images && house.images.length > 0 && (
+    <img
+      src={houseImages[0].url}
+      alt=""
+      class="cover w-[700px] aspect-video object-cover"
+    />
+    )}
+    <div class="p-5 w-[400px] flex flex-col justify-start items-start">
+      <h1 class="text-4xl font-semibold">{house.title}</h1>
+      <p class="text-gray-600 text-2xl lg:text-base mt-2">{house.address}</p>
+      <p class="mb-4 font-bold text-3xl lg:text-2xl text-green-600">
+        €{house.price.toLocaleString()}
+      </p>
+      <ModifyButton client:load editRef={`/edit/${house.id}`}/>
+      <DeleteButton id={house.id} client:load />
+    </div>
+</article>
