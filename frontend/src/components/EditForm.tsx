@@ -83,7 +83,6 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
       alert("Failed to fetch house data");
       return;
     }
-    const updatedHouseId = house.id;
 
     // Paso 2: Subir imágenes a Cloudinary
     const uploadedImages: HouseImageFormData[] = [];
@@ -91,9 +90,9 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
     for (const file of selectedFiles) {
       const cloudinaryForm = new FormData();
       cloudinaryForm.append("image", file);
-      cloudinaryForm.append("houseId", String(updatedHouseId));
+      cloudinaryForm.append("houseId", String(houseId));
 
-      const uploadRes = await fetch(`${API_URL}/images/${updatedHouseId}`, {
+      const uploadRes = await fetch(`${API_URL}/images/${houseId}`, {
         method: "POST",
         body: cloudinaryForm,
       }).catch(() => {
@@ -107,14 +106,14 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
           url: uploaded.url,
           alt: updatedHouseData.title,
           order_index: uploadedImages.length,
-          houseId: updatedHouseId,
+          houseId: houseId,
         });
       }
     }
 
     // Paso 3: Asociar imágenes a la casa
     if (uploadedImages.length > 0) {
-      await fetch(`${API_URL}/houses/${updatedHouseId}`, {
+      await fetch(`${API_URL}/houses/${houseId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ images: uploadedImages }),
