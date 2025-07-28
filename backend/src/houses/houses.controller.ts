@@ -10,10 +10,14 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HousesService } from './houses.service';
+import { ImagesService } from '../images/images.service';
 
 @Controller('houses')
 export class HousesController {
-  constructor(private readonly housesService: HousesService) {}
+  constructor(
+    private readonly housesService: HousesService,
+    private readonly imagesService: ImagesService, // ✅ Inyección añadida
+  ) {}
 
   @Get()
   async listHouses() {
@@ -64,6 +68,7 @@ export class HousesController {
       return { message: 'House updated successfully' };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
+      console.error(error); // <--- Añade esto
       throw new HttpException(
         'Failed to update house',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -83,6 +88,22 @@ export class HousesController {
     } catch (error) {
       throw new HttpException(
         'Failed to delete house',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Delete('image/:id')
+  async deleteImage(@Param('id') id: string) {
+    try {
+      const result = await this.imagesService.deleteImageById(+id);
+      if (!result) {
+        throw new HttpException('Image not found', HttpStatus.NOT_FOUND);
+      }
+      return { message: 'Image deleted successfully' };
+    } catch (error) {
+      throw new HttpException(
+        'Failed to delete image',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

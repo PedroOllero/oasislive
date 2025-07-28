@@ -4,8 +4,8 @@ import "../../styles/tailwind.css";
 
 export const prerender = false;
 
-const { id } = Astro.params;
-const res = await fetch(`http://localhost:3001/houses/${id}`);
+const houseId = parseInt(Astro.params.id!);
+const res = await fetch(`http://localhost:3001/houses/${houseId}`);
 const house = await res.json();
 ---
 <html lang="es">
@@ -16,6 +16,6 @@ const house = await res.json();
   </head>
   <body class="bg-primary-600">
     <p>Editar</p>
-    <EditForm client:only="react" houseId={Number(id)} />
+    <EditForm client:only="react" houseId={houseId} />
   </body>
 </html>

@@ -7,6 +7,7 @@ export interface HouseImage {
 }
 
 export interface HouseImageFormData {
+  id?: number;
   url: string;
   alt: string;
   order_index: number;

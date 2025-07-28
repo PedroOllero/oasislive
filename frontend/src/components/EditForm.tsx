@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import type { HouseFormData } from "../model/house";
+import type { House, HouseFormData } from "../model/house";
 import type { HouseImageFormData } from "../model/image";
 
 export const EditForm = ({ houseId }: { houseId: number }) => {
-  const [houseData, setHouseData] = useState<HouseFormData | null>(null);
+  const [houseData, setHouseData] = useState<House | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [existingImages, setExistingImages] = useState<HouseImageFormData[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -19,6 +18,7 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
       setSelectedFiles(newFiles.slice(0, 10));
     } else {
       setSelectedFiles(newFiles);
+      console.log(selectedFiles);
     }
   };
 
@@ -26,14 +26,14 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
     const fetchHouseData = async () => {
       try {
         const id = houseId;
-        const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
+        const API_URL =
+          import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
         const res = await fetch(`${API_URL}/houses/${id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch house data");
         }
         const data = await res.json();
         setHouseData(data);
-        setExistingImages(data.images || []);
       } catch (error) {
         console.error(error);
         alert("Failed to load house data");
@@ -83,7 +83,7 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
       alert("Failed to fetch house data");
       return;
     }
-    const houseId = house.id;
+    const updatedHouseId = house.id;
 
     // Paso 2: Subir imágenes a Cloudinary
     const uploadedImages: HouseImageFormData[] = [];
@@ -91,15 +91,12 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
     for (const file of selectedFiles) {
       const cloudinaryForm = new FormData();
       cloudinaryForm.append("image", file);
-      cloudinaryForm.append("houseId", String(houseId));
+      cloudinaryForm.append("houseId", String(updatedHouseId));
 
-      const uploadRes = await fetch(
-        `${API_URL}/images/${houseId}`,
-        {
-          method: "POST",
-          body: cloudinaryForm,
-        }
-      ).catch(() => {
+      const uploadRes = await fetch(`${API_URL}/images/${updatedHouseId}`, {
+        method: "POST",
+        body: cloudinaryForm,
+      }).catch(() => {
         console.log("Error during posting images");
         alert("Error during posting images");
       });
@@ -110,14 +107,14 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
           url: uploaded.url,
           alt: updatedHouseData.title,
           order_index: uploadedImages.length,
-          houseId: houseId,
+          houseId: updatedHouseId,
         });
       }
     }
 
     // Paso 3: Asociar imágenes a la casa
     if (uploadedImages.length > 0) {
-      await fetch(`${API_URL}/houses/${houseId}`, {
+      await fetch(`${API_URL}/houses/${updatedHouseId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ images: uploadedImages }),
@@ -132,20 +129,25 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
     window.location.href = "/edit";
   };
 
-  const handleRemoveExistingImage = async (imageId: number) => {
-    const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
+  // Nueva función para eliminar imagen
+  const handleDeleteImage = async (imageId: number) => {
+    const API_URL = "http://localhost:3001";
     try {
       const res = await fetch(`${API_URL}/images/${imageId}`, {
         method: "DELETE",
       });
       if (res.ok) {
-        setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
+        setHouseData((prev) =>
+          prev
+            ? { ...prev, images: prev.images.filter((img) => img.id !== imageId) }
+            : null
+        );
       } else {
         alert("Failed to delete image");
       }
     } catch (error) {
       console.error(error);
-      alert("Error deleting image");
+      alert("Failed to delete image");
     }
   };
 
@@ -263,26 +265,6 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
         />
         Rentable
       </label>
-      {existingImages.length > 0 && (
-        <div className="grid grid-cols-5 gap-2 mt-2">
-          {existingImages.map((img, index) => (
-            <div key={img.id} className="relative">
-              <img
-                src={img.url}
-                alt={img.alt}
-                className="w-full h-20 object-cover rounded"
-              />
-              <button
-                type="button"
-                className="absolute top-0 right-0 bg-red-600 text-white text-xs px-1 rounded"
-                onClick={() => handleRemoveExistingImage(img.id)}
-              >
-                ✕
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
       <input
         type="file"
         name="images"
@@ -305,6 +287,26 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
               />
             );
           })}
+        </div>
+      )}
+      {houseData.images && houseData.images.length > 0 && (
+        <div className="grid grid-cols-5 gap-2 mt-2">
+          {houseData.images.map((image, index) => (
+            <div key={index} className="relative">
+              <img
+                src={image.url}
+                alt={image.alt}
+                className="w-full h-20 object-cover rounded"
+              />
+              <button
+                type="button"
+                onClick={() => handleDeleteImage(image.id)}
+                className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
+              >
+                X
+              </button>
+            </div>
+          ))}
         </div>
       )}
       <button

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import cloudinary from '../utils/cloudinary.js';
+import cloudinary from '../utils/cloudinary';
 import { Image } from './image.entity.js';
 import { House } from '../houses/house.entity.js';
 
@@ -78,5 +78,22 @@ export class ImagesService {
     }
 
     await this.imageRepository.delete({ house: { id: houseId } });
+  }
+
+  async deleteImageById(imageId: number) {
+    const image = await this.imageRepository.findOne({
+      where: { id: imageId },
+    });
+
+    if (!image) {
+      throw new NotFoundException('Image not found');
+    }
+
+    const publicId = this.extractPublicIdFromUrl(image.url);
+    if (publicId) {
+      await cloudinary.uploader.destroy(publicId);
+    }
+
+    await this.imageRepository.delete(imageId);
   }
 }
