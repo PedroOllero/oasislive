@@ -8,6 +8,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  NotFoundException,
 } from '@nestjs/common';
 import { HousesService } from './houses.service';
 import { ImagesService } from '../images/images.service';
@@ -96,12 +97,12 @@ export class HousesController {
   @Delete('image/:id')
   async deleteImage(@Param('id') id: string) {
     try {
-      const result = await this.imagesService.deleteImageById(+id);
-      if (!result) {
-        throw new HttpException('Image not found', HttpStatus.NOT_FOUND);
-      }
+      await this.imagesService.deleteImageById(+id);
       return { message: 'Image deleted successfully' };
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw new HttpException('Image not found', HttpStatus.NOT_FOUND);
+      }
       throw new HttpException(
         'Failed to delete image',
         HttpStatus.INTERNAL_SERVER_ERROR,
