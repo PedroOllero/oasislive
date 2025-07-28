@@ -7,6 +7,16 @@ const PORT = process.env.PORT || 3001;
 
 const response = await fetch(`http://localhost:${PORT}/houses`);
 const houses = await response.json();
+
+const soldableHouse = houses
+  .filter((house: House) => house.rentable === false)
+  .filter((house: House) => house.active === true);
+const soldableQuantity = soldableHouse.length;
+
+const rentableHouse = houses
+  .filter((house: House) => house.rentable === true)
+  .filter((house: House) => house.active === true);
+const rentableQuantity = rentableHouse.length;
 ---
 
 <html lang="es">
@@ -66,21 +76,35 @@ const houses = await response.json();
         >
       </nav>
 
-      <div id="non-rentable" class="justify-items-center bg-accent-400 py-5">
+      <section
+        id="non-rentable"
+        class="justify-items-center bg-accent-400 py-5"
+      >
+      <h1 class="text-3xl text-white mb-6">
+        En OasisVive tenemos {soldableQuantity === 1 ? <strong>{soldableQuantity} casa</strong> : <strong>{soldableQuantity} casa</strong> } en venta
+        para tí en Valencia.
+      </h1>
         {
-          houses
-            .filter((house: House) => house.rentable === false)
-            .map((house: House) => <HouseCard key={house.id} house={house} />)
+          soldableHouse.map((house: House) => (
+            <HouseCard key={house.id} house={house} />
+          ))
         }
-      </div>
+      </section>
 
-      <div id="rentable" class="justify-items-center bg-accent-500 py-5 hidden">
+      <section
+        id="rentable"
+        class="justify-items-center bg-accent-500 py-5 hidden"
+      >
+        <h1 class="text-3xl text-white mb-6">
+          En OasisVive tenemos {rentableQuantity === 1 ? <strong>{rentableQuantity} casa</strong> : <strong>{rentableQuantity} casa</strong> } en alquiler
+          para tí en Valencia.
+        </h1>
         {
-          houses
-            .filter((house: House) => house.rentable === true)
-            .map((house: House) => <HouseCard key={house.id} house={house} />)
+          rentableHouse.map((house: House) => (
+            <HouseCard key={house.id} house={house} />
+          ))
         }
-      </div>
+      </section>
     </main>
   </body>
 </html>

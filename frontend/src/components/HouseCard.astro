@@ -24,7 +24,6 @@ const { house }: { house: House } = {
   ...Astro.props,
 };
 
-import DeleteButton from "../components/deleteButton.jsx";
 import type { House } from "../model/house";
 import type { HouseImage } from "../model/image";
 
@@ -33,8 +32,8 @@ const houseImages: HouseImage[] = house.images.map((item) => {
 });
 ---
 
-<article class="bg-primary-600 mb-5">
-  <a href={`/house/${house.id}`} class="justify-center items-start flex flex-row">
+<article class="bg-primary-600 mb-5 cursor-pointer relative">
+  <a href={`/house/${house.id}`} class="justify-center items-start flex flex-row cursor-pointer">
     {house.images && house.images.length > 0 && (
     <img
       src={houseImages[0].url}
@@ -60,6 +59,10 @@ const houseImages: HouseImage[] = house.images.map((item) => {
         <div class="scale-100"><RulerIcon /></div><p class="pl-8 lg:pl-4 text-2xl lg:text-base">
           {house.total_area} m² de area total
         </p>
+      </div>
+
+      <div class="w-full flex justify-center absolute bottom-5 left-87">
+        <div class="inline-block px-8 py-4 bg-accent-400 hover:bg-white active:bg-white text-white hover:text-black active:text-black">Ver más</div>
       </div>
     </div>
   </a>

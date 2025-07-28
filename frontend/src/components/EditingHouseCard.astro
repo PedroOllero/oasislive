@@ -45,6 +45,16 @@ const houseImages: HouseImage[] = house.images.map((item) => {
       <p class="mb-4 font-bold text-3xl lg:text-2xl text-green-600">
         €{house.price.toLocaleString()}
       </p>
+      { house.active ?
+        <p class="text-accent-300">✅ La casa está activa</p>
+        :
+        <p class="text-red-500">❌ La casa está inactiva</p>
+      }
+      { house.rentable ?
+        <p class="text-accent-300">📊 La casa está en <strong>alquiler</strong></p>
+        :
+        <p class="text-accent-300">💰 La casa está en <strong>venta</strong></p>
+      }
       <ModifyButton client:load editRef={`/edit/${house.id}`}/>
       <DeleteButton id={house.id} client:load />
     </div>
