@@ -1,0 +1,21 @@
+---
+import "../styles/tailwind.css";
+import Header from "../components/Header.astro";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Oasis Vive</title>
+  </head>
+  <body class="font-sans bg-primary-600">
+    <Header />
+    <main
+      id="content"
+      class="w-full h-screen flex flex-col justify-center items-center mt-30 lg:mt-20"
+    >
+    <a href="/edit" class="bg-accent-400 hover:bg-white text-white hover:text-black text-8xl lg:text-6xl px-8 py-4 mb-4">Gestionar Casas</a>
+    <a href="/create" class="bg-accent-400 hover:bg-white text-white hover:text-black text-8xl lg:text-6xl px-8 py-4 mb-4">Crear Casa</a>
+    </main>
+  </body>
+</html>

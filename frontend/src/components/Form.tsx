@@ -264,7 +264,7 @@ const Form = () => {
       )}
       <button
         type="submit"
-        className=" bg-accent-400 text-white py-2 px-4 rounded hover:bg-white hover:text-black"
+        className=" bg-accent-400 text-white p-4 lg:p-2 text-4xl lg:text-base rounded hover:bg-white hover:text-black"
       >
         Create House
       </button>

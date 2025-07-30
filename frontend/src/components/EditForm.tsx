@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { House, HouseFormData } from "../model/house";
 import type { HouseImageFormData } from "../model/image";
+import ModifyButton from "./ModifyButton";
 
 export const EditForm = ({ houseId }: { houseId: number }) => {
   const [houseData, setHouseData] = useState<House | null>(null);
@@ -383,7 +384,7 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
       )}
       <button
         type="submit"
-        className="bg-accent-400 text-white py-2 px-4 rounded hover:bg-white hover:text-black"
+        className="bg-accent-400 text-white p-4 lg:p-2 text-4xl lg:text-base rounded hover:bg-white hover:text-black"
       >
         Update House
       </button>

@@ -42,7 +42,7 @@ const houseImages: HouseImage[] = house.images.map((item) => {
     <div class="p-5 w-[400px] flex flex-col justify-start items-start">
       <h1 class="text-4xl font-semibold">{house.title}</h1>
       <p class="text-gray-600 text-2xl lg:text-base mt-2">{house.address}</p>
-      <p class="mb-4 font-bold text-3xl lg:text-2xl text-green-600">
+      <p class="mb-4 font-bold text-3xl lg:text-2xl text-accent-400">
         €{house.price.toLocaleString()}
       </p>
       { house.active ?
@@ -56,6 +56,5 @@ const houseImages: HouseImage[] = house.images.map((item) => {
         <p class="text-accent-300">💰 La casa está en <strong>venta</strong></p>
       }
       <ModifyButton client:load editRef={`/edit/${house.id}`}/>
-      <DeleteButton id={house.id} client:load />
     </div>
 </article>
