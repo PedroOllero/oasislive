@@ -72,7 +72,7 @@ const imagesArray: HouseImage[] = [...house.images];
               <div class="scale-200 lg:scale-100"><BedIcon /></div><p
                 class="housePropText"
               >
-                {house.bedrooms} cuartos
+                {house.bedrooms === 1 ? `${house.bedrooms} cuarto` : `${house.bedrooms} cuartos`}  
               </p>
             </div>
 
@@ -80,7 +80,7 @@ const imagesArray: HouseImage[] = [...house.images];
               <div class="scale-200 lg:scale-100"><BathIcon /></div><p
                 class="housePropText"
               >
-                {house.bedrooms} baños
+              {house.bathrooms === 1 ? `${house.bathrooms} baño` : `${house.bathrooms} baños`}
               </p>
             </div>
 
@@ -122,7 +122,7 @@ const imagesArray: HouseImage[] = [...house.images];
             }
 
             {
-              !house.garden && (
+              house.garden && (
                 <div class="houseProp">
                   <div class="scale-200 lg:scale-100">
                     <FenceIcon />
@@ -144,7 +144,7 @@ const imagesArray: HouseImage[] = [...house.images];
             }
 
             {
-              !house.accesible && (
+              house.accesible && (
                 <div class="houseProp">
                   <div class="scale-200 lg:scale-100">
                     <AccesibilityIcon />
@@ -155,7 +155,7 @@ const imagesArray: HouseImage[] = [...house.images];
             }
 
             {
-              !house.airConditioned && (
+              house.airConditioned && (
                 <div class="houseProp">
                   <div class="scale-200 lg:scale-100">
                     <AirIcon />
@@ -166,7 +166,7 @@ const imagesArray: HouseImage[] = [...house.images];
             }
 
             {
-              !house.heating && (
+              house.heating && (
                 <div class="houseProp">
                   <div class="scale-200 lg:scale-100">
                     <HeaterIcon />

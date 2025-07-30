@@ -116,7 +116,7 @@ const Form = () => {
   return (
     <form
       onSubmit={submit}
-      className="max-w-2xl mx-auto mt-10 p-6 bg-accent-500 shadow-md rounded-lg grid gap-4"
+      className="p-6 grid gap-4"
       encType="multipart/form-data"
     >
       <input
@@ -124,122 +124,126 @@ const Form = () => {
         name="title"
         placeholder="Nombre de la casa"
         required
-        className="input"
+        className="input bg-accent-600 textInput"
       />
       <input
         type="number"
         name="price"
         placeholder="Precio"
         required
-        className="input"
+        className="input bg-accent-600 textInput"
       />
       <textarea
         name="description"
         placeholder="Descripción"
         required
-        className="input"
+        className="input bg-accent-600 h-30 textInput"
       ></textarea>
       <input
         type="text"
         name="flat"
         placeholder="Planta"
-        className="input"
+        className="input bg-accent-600 textInput"
       />
       <input
         type="text"
         name="address"
         placeholder="Dirección"
         required
-        className="input"
+        className="input bg-accent-600 textInput"
       />
       <input
         type="text"
         name="mapAddress"
         placeholder="Dirección para mapa"
         required
-        className="input"
+        className="input bg-accent-600 textInput"
       />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
       <input
         type="number"
         name="bedrooms"
-        placeholder="Bedrooms"
+        placeholder="Cuartos"
         required
-        className="input"
+        className="input bg-accent-600 textInputColumn"
       />
       <input
         type="number"
         name="bathrooms"
-        placeholder="Bathrooms"
+        placeholder="Baños"
         required
-        className="input"
+        className="input bg-accent-600 textInputColumn"
       />
       <input
         type="number"
         name="total_area"
-        placeholder="Total Area (m²)"
+        placeholder="Area Total (m²)"
         required
-        className="input"
+        className="input bg-accent-600 textInputColumn"
       />
       <input
         type="number"
         name="living_area"
-        placeholder="Living Area (m²)"
+        placeholder="Area Habitable (m²)"
         required
-        className="input"
+        className="input bg-accent-600 textInputColumn"
       />
       <input
         type="number"
         name="construction_year"
-        placeholder="Construction Year"
+        placeholder="Año de construcción"
         required
-        className="input"
+        className="input bg-accent-600 textInputColumn"
       />
-      <label className="flex items-center gap-2">
-        <input type="checkbox" name="pet" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      <label className="checkbox">
+        <input type="checkbox" name="pet"/>
         Mascota
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="accesible" />
         Accesible
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="furnished" />
         Amueblado
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="heating" />
         Calefacción
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="airConditioned" />
         Aire acondicionado
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="garage" />
         Garage
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="terrace" />
         Terrace
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="garden" />
         Jardín
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox">
         <input type="checkbox" name="active" />
         Active
       </label>
-      <label className="flex items-center gap-2">
+      <label className="checkbox font-extraboldxº">
         <input type="checkbox" name="rentable" />
         Rentable
       </label>
+      </div>
       <input
         type="file"
         name="images"
         multiple
         accept="image/*"
-        className="input bg-red-400"
+        className="input bg-primary-500 p-2 cursor-pointer hover:bg-white"
         onChange={handleFileChange}
       />
       {selectedFiles.length > 0 && (
@@ -251,7 +255,7 @@ const Form = () => {
                 key={index}
                 src={url}
                 alt={`preview-${index}`}
-                className="w-full h-20 object-cover rounded"
+                className="w-full h-20 object-cover my-4"
                 onLoad={() => URL.revokeObjectURL(url)}
               />
             );
@@ -260,7 +264,7 @@ const Form = () => {
       )}
       <button
         type="submit"
-        className="bg-accent-400 text-white py-2 px-4 rounded hover:bg-white hover:text-black"
+        className=" bg-accent-400 text-white py-2 px-4 rounded hover:bg-white hover:text-black"
       >
         Create House
       </button>

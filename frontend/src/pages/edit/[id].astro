@@ -14,8 +14,8 @@ const house = await res.json();
     <title>{house.title} | OasisLive</title>
     <meta name="description" content={house.description} />
   </head>
-  <body class="bg-primary-600">
-    <p>Editar</p>
+  <body class="font-sans bg-accent-500 flex flex-col justify-center items-center">
+    <p class="text-white text-8xl lg:text-4xl mt-4">Editar casa</p>
     <EditForm client:only="react" houseId={houseId} />
   </body>
 </html>

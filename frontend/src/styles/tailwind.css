@@ -116,4 +116,15 @@
   .housePropText {
     @apply pl-8 lg:pl-4 text-4xl lg:text-base;
   }
+  .textInput{
+    @apply p-4 lg:p-2 w-[80vw] lg:w-[50vw] text-4xl lg:text-base;
+  }
+  .textInputColumn{
+    @apply p-4 lg:p-2 w-[37vw] lg:w-[24vw] text-4xl lg:text-base;
+  }
+  .checkbox{
+    @apply flex items-center gap-2 text-4xl lg:text-base;
+  }
+
+
 }

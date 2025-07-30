@@ -7,7 +7,9 @@ const { house }: { house: House } = {
   house: {
     id: 0,
     title: "",
+    flat: "",
     address: "",
+    mapAddress: "",
     price: 0,
     description: "",
     bedrooms: 0,
@@ -15,6 +17,12 @@ const { house }: { house: House } = {
     total_area: 0,
     living_area: 0,
     garage: false,
+    pet: false,
+    garden: false,
+    airConditioned: false,
+    heating: false,
+    accesible: false,
+    furnished: false,
     terrace: false,
     active: false,
     rentable: false,
@@ -44,7 +52,7 @@ const houseImages: HouseImage[] = house.images.map((item) => {
     <div class="p-5 w-[400px] flex flex-col justify-start items-start">
       <h1 class="text-4xl font-semibold">{house.title}</h1>
       <p class="text-gray-600 text-2xl lg:text-base mt-2">{house.address}</p>
-      <p class="mb-4 font-bold text-3xl lg:text-2xl text-green-600">
+      <p class="mb-4 font-bold text-3xl lg:text-2xl text-accent-400">
         €{house.price.toLocaleString()}
       </p>
       <div class="houseProp mb-2">

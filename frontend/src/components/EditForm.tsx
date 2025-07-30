@@ -50,17 +50,24 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
     const formData = new FormData(form);
 
     const updatedHouseData: HouseFormData = {
-      id: houseData.id,
       title: formData.get("title") as string,
       price: Number(formData.get("price")),
       description: formData.get("description") as string,
+      flat: formData.get("flat") as string,
       address: formData.get("address") as string,
+      mapAddress: formData.get("mapAddress") as string,
       bedrooms: Number(formData.get("bedrooms")),
       bathrooms: Number(formData.get("bathrooms")),
       total_area: Number(formData.get("total_area")),
       living_area: Number(formData.get("living_area")),
       construction_year: Number(formData.get("construction_year")),
       garage: formData.get("garage") === "on",
+      garden: formData.get("garden") === "on",
+      pet: formData.get("pet") === "on",
+      accesible: formData.get("accesible") === "on",
+      heating: formData.get("heating") === "on",
+      airConditioned: formData.get("airConditioned") === "on",
+      furnished: formData.get("furnished") === "on",
       terrace: formData.get("terrace") === "on",
       active: formData.get("active") === "on",
       rentable: formData.get("rentable") === "on",
@@ -138,7 +145,10 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
       if (res.ok) {
         setHouseData((prev) =>
           prev
-            ? { ...prev, images: prev.images.filter((img) => img.id !== imageId) }
+            ? {
+                ...prev,
+                images: prev.images.filter((img) => img.id !== imageId),
+              }
             : null
         );
       } else {
@@ -157,7 +167,7 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
   return (
     <form
       onSubmit={submit}
-      className="max-w-2xl mx-auto mt-10 p-6 bg-accent-500 shadow-md rounded-lg grid gap-4"
+      className="p-6 grid gap-4"
       encType="multipart/form-data"
     >
       <input
@@ -165,111 +175,174 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
         name="title"
         placeholder="Nombre de la casa"
         required
-        className="input"
+        className="input bg-accent-600 textInput"
         defaultValue={houseData.title}
       />
       <input
         type="number"
         name="price"
-        placeholder="Price"
+        placeholder="Precio"
         required
-        className="input"
+        className="input bg-accent-600 textInput"
         defaultValue={houseData.price}
       />
       <textarea
         name="description"
-        placeholder="Description"
+        placeholder="Descripción"
         required
-        className="input"
+        className="input bg-accent-600 h-50 textInput"
         defaultValue={houseData.description}
       ></textarea>
       <input
         type="text"
+        name="flat"
+        placeholder="Planta"
+        className="input bg-accent-600 textInput"
+        defaultValue={houseData.flat}
+      />
+      <input
+        type="text"
         name="address"
-        placeholder="Address"
+        placeholder="Dirección"
         required
-        className="input"
+        className="input bg-accent-600 textInput"
         defaultValue={houseData.address}
       />
       <input
-        type="number"
-        name="bedrooms"
-        placeholder="Bedrooms"
+        type="text"
+        name="mapAddress"
+        placeholder="Dirección para mapa"
         required
-        className="input"
-        defaultValue={houseData.bedrooms}
+        className="input bg-accent-600 textInput"
+        defaultValue={houseData.mapAddress}
       />
-      <input
-        type="number"
-        name="bathrooms"
-        placeholder="Bathrooms"
-        required
-        className="input"
-        defaultValue={houseData.bathrooms}
-      />
-      <input
-        type="number"
-        name="total_area"
-        placeholder="Total Area (m²)"
-        required
-        className="input"
-        defaultValue={houseData.total_area}
-      />
-      <input
-        type="number"
-        name="living_area"
-        placeholder="Living Area (m²)"
-        required
-        className="input"
-        defaultValue={houseData.living_area}
-      />
-      <input
-        type="number"
-        name="construction_year"
-        placeholder="Construction Year"
-        required
-        className="input"
-        defaultValue={houseData.construction_year}
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <input
+          type="number"
+          name="bedrooms"
+          placeholder="Bedrooms"
+          required
+          className="input bg-accent-600 textInputColumn"
+          defaultValue={houseData.bedrooms}
+        />
+        <input
+          type="number"
+          name="bathrooms"
+          placeholder="Bathrooms"
+          required
+          className="input bg-accent-600 textInputColumn"
+          defaultValue={houseData.bathrooms}
+        />
+        <input
+          type="number"
+          name="total_area"
+          placeholder="Total Area (m²)"
+          required
+          className="input bg-accent-600 textInputColumn"
+          defaultValue={houseData.total_area}
+        />
+        <input
+          type="number"
+          name="living_area"
+          placeholder="Living Area (m²)"
+          required
+          className="input bg-accent-600 textInputColumn"
+          defaultValue={houseData.living_area}
+        />
+        <input
+          type="number"
+          name="construction_year"
+          placeholder="Construction Year"
+          required
+          className="input bg-accent-600 textInputColumn"
+          defaultValue={houseData.construction_year}
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <label className="checkbox">
+          <input type="checkbox" name="pet" defaultChecked={houseData.pet} />
+          Mascota
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="accesible"
+            defaultChecked={houseData.accesible}
+          />
+          Accesible
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="furnished"
+            defaultChecked={houseData.furnished}
+          />
+          Amueblado
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="heating"
+            defaultChecked={houseData.heating}
+          />
+          Calefacción
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="airConditioned"
+            defaultChecked={houseData.airConditioned}
+          />
+          Aire acondicionado
+        </label>
 
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="garage"
-          defaultChecked={houseData.garage}
-        />
-        Garage
-      </label>
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="terrace"
-          defaultChecked={houseData.terrace}
-        />
-        Terrace
-      </label>
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="active"
-          defaultChecked={houseData.active}
-        />
-        Active
-      </label>
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="rentable"
-          defaultChecked={houseData.rentable}
-        />
-        Rentable
-      </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="garage"
+            defaultChecked={houseData.garage}
+          />
+          Garage
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="terrace"
+            defaultChecked={houseData.terrace}
+          />
+          Terrace
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="garden"
+            defaultChecked={houseData.garden}
+          />
+          Jardín
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="active"
+            defaultChecked={houseData.active}
+          />
+          Active
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            name="rentable"
+            defaultChecked={houseData.rentable}
+          />
+          Rentable
+        </label>
+      </div>
       <input
         type="file"
         name="images"
         multiple
         accept="image/*"
-        className="input bg-red-400"
+        className="input bg-primary-500 p-4 lg:p-2 text-4xl lg:text-base cursor-pointer hover:bg-white"
         onChange={handleFileChange}
       />
       {selectedFiles.length > 0 && (
