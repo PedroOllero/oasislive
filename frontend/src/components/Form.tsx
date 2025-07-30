@@ -30,13 +30,21 @@ const Form = () => {
       title: formData.get("title") as string,
       price: Number(formData.get("price")),
       description: formData.get("description") as string,
+      flat: formData.get("flat") as string,
       address: formData.get("address") as string,
+      mapAddress: formData.get("mapAddress") as string,
       bedrooms: Number(formData.get("bedrooms")),
       bathrooms: Number(formData.get("bathrooms")),
       total_area: Number(formData.get("total_area")),
       living_area: Number(formData.get("living_area")),
       construction_year: Number(formData.get("construction_year")),
       garage: formData.get("garage") === "on",
+      garden: formData.get("garden") === "on",
+      pet: formData.get("pet") === "on",
+      accesible: formData.get("accesible") === "on",
+      heating: formData.get("heating") === "on",
+      airConditioned: formData.get("airConditioned") === "on",
+      furnished: formData.get("furnished") === "on",
       terrace: formData.get("terrace") === "on",
       active: formData.get("active") === "on",
       rentable: formData.get("rentable") === "on",
@@ -121,20 +129,33 @@ const Form = () => {
       <input
         type="number"
         name="price"
-        placeholder="Price"
+        placeholder="Precio"
         required
         className="input"
       />
       <textarea
         name="description"
-        placeholder="Description"
+        placeholder="Descripción"
         required
         className="input"
       ></textarea>
       <input
         type="text"
+        name="flat"
+        placeholder="Planta"
+        className="input"
+      />
+      <input
+        type="text"
         name="address"
-        placeholder="Address"
+        placeholder="Dirección"
+        required
+        className="input"
+      />
+      <input
+        type="text"
+        name="mapAddress"
+        placeholder="Dirección para mapa"
         required
         className="input"
       />
@@ -173,7 +194,26 @@ const Form = () => {
         required
         className="input"
       />
-
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="pet" />
+        Mascota
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="accesible" />
+        Accesible
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="furnished" />
+        Amueblado
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="heating" />
+        Calefacción
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="airConditioned" />
+        Aire acondicionado
+      </label>
       <label className="flex items-center gap-2">
         <input type="checkbox" name="garage" />
         Garage
@@ -181,6 +221,10 @@ const Form = () => {
       <label className="flex items-center gap-2">
         <input type="checkbox" name="terrace" />
         Terrace
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" name="garden" />
+        Jardín
       </label>
       <label className="flex items-center gap-2">
         <input type="checkbox" name="active" />

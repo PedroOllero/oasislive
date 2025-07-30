@@ -15,13 +15,13 @@ export class House {
   @Column('text')
   description: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   flat: string;
 
-  @Column()
+  @Column({ nullable: true })
   address: string;
 
-  @Column()
+  @Column({ nullable: true })
   mapAddress: string;
 
   @Column('integer')

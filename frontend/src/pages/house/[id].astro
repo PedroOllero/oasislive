@@ -13,6 +13,11 @@ import type { House } from "../../model/house";
 import type { HouseImage } from "../../model/image";
 import MapLoader from "../../components/MapLoader.tsx";
 import QuickCall from "../../components/QuickCall.astro";
+import SofaIcon from "../../components/icons/SofaIcon.astro";
+import AccesibilityIcon from "../../components/icons/AccesibilityIcon.astro";
+import HeaterIcon from "../../components/icons/HeaterIcon.astro";
+import DogIcon from "../../components/icons/DogIcon.astro";
+import AirIcon from "../../components/icons/AirIcon.astro";
 
 export const prerender = false;
 
@@ -52,7 +57,7 @@ const imagesArray: HouseImage[] = [...house.images];
           </p>
           <h2 class="text-3xl lg:text-base text-accent-200">{house.address}</h2>
           <p class="mt-2 lg:mt-0 text-3xl lg:text-base text-accent-300">
-            {house.living_area} m² | {house.bedrooms} hab.
+            {house.living_area} m² | {house.bedrooms} hab. | {house.flat}
           </p>
           <p class="mt-10 lg:mt-5 mb-4 lg:mb-0 font-bold text-4xl lg:text-base">
             Descripción del vendedor:
@@ -64,28 +69,42 @@ const imagesArray: HouseImage[] = [...house.images];
           </p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 px-4 py-4">
             <div class="houseProp">
-              <div class="scale-200 lg:scale-100"><BedIcon /></div><p class="housePropText">{house.bedrooms} cuartos</p>
+              <div class="scale-200 lg:scale-100"><BedIcon /></div><p
+                class="housePropText"
+              >
+                {house.bedrooms} cuartos
+              </p>
             </div>
 
             <div class="houseProp">
-              <div class="scale-200 lg:scale-100"><BathIcon /></div><p class="housePropText">{house.bedrooms} baños</p>
+              <div class="scale-200 lg:scale-100"><BathIcon /></div><p
+                class="housePropText"
+              >
+                {house.bedrooms} baños
+              </p>
             </div>
 
             <div class="houseProp">
-              <div class="scale-200 lg:scale-100"><RulerIcon /></div><p class="housePropText">
+              <div class="scale-200 lg:scale-100"><RulerIcon /></div><p
+                class="housePropText"
+              >
                 {house.total_area} m² de area total
               </p>
             </div>
 
             <div class="houseProp">
               <div class="scale-200 lg:scale-100"><RulerLineIcon /></div>
-              <p class="housePropText">{house.living_area} m² de area habitable</p>
+              <p class="housePropText">
+                {house.living_area} m² de area habitable
+              </p>
             </div>
 
             {
               house.garage && (
                 <div class="houseProp">
-                  <div class="scale-200 lg:scale-100"><CarIcon /></div>
+                  <div class="scale-200 lg:scale-100">
+                    <CarIcon />
+                  </div>
                   <p class="housePropText">Garaje incluido</p>
                 </div>
               )
@@ -94,25 +113,95 @@ const imagesArray: HouseImage[] = [...house.images];
             {
               house.terrace && (
                 <div class="houseProp">
-                  <div class="scale-200 lg:scale-100"><FenceIcon /></div>
+                  <div class="scale-200 lg:scale-100">
+                    <FenceIcon />
+                  </div>
                   <p class="housePropText">Terraza</p>
                 </div>
               )
             }
 
+            {
+              !house.garden && (
+                <div class="houseProp">
+                  <div class="scale-200 lg:scale-100">
+                    <FenceIcon />
+                  </div>
+                  <p class="housePropText">Jardín</p>
+                </div>
+              )
+            }
+
+            {
+              house.furnished && (
+                <div class="houseProp">
+                  <div class="scale-200 lg:scale-100">
+                    <SofaIcon />
+                  </div>
+                  <p class="housePropText">Amueblado</p>
+                </div>
+              )
+            }
+
+            {
+              !house.accesible && (
+                <div class="houseProp">
+                  <div class="scale-200 lg:scale-100">
+                    <AccesibilityIcon />
+                  </div>
+                  <p class="housePropText">Accesible</p>
+                </div>
+              )
+            }
+
+            {
+              !house.airConditioned && (
+                <div class="houseProp">
+                  <div class="scale-200 lg:scale-100">
+                    <AirIcon />
+                  </div>
+                  <p class="housePropText">Aire acondicionado</p>
+                </div>
+              )
+            }
+
+            {
+              !house.heating && (
+                <div class="houseProp">
+                  <div class="scale-200 lg:scale-100">
+                    <HeaterIcon />
+                  </div>
+                  <p class="housePropText">Calefacción</p>
+                </div>
+              )
+            }
+
+            {
+              house.pet && (
+                <div class="houseProp">
+                  <div class="scale-200 lg:scale-100">
+                    <DogIcon />
+                  </div>
+                  <p class="housePropText">Mascotas permitidas</p>
+                </div>
+              )
+            }
+
             <div class="houseProp">
-              <div class="scale-200 lg:scale-100"><HammerIcon /></div><p class="housePropText">Se construyó en {house.construction_year}</p>
+              <div class="scale-200 lg:scale-100"><HammerIcon /></div><p
+                class="housePropText"
+              >
+                Se construyó en {house.construction_year}
+              </p>
             </div>
-
-          </div>
-          
-          <div id="map-container"  class="z-10">
-            <MapLoader client:only="react" address={house.address}/>
           </div>
 
+          <div id="map-container" class="z-10">
+            <MapLoader client:only="react" address={house.mapAddress} />
+          </div>
         </div>
       </div>
     </main>
-    <QuickCall/>
+    <QuickCall />
   </body>
 </html>
