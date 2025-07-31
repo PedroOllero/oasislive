@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+
 @layer base {
   :root {
     --color-primary-100: #433318;
@@ -7,13 +10,13 @@
     --color-primary-300: #907546;
     --color-primary-400: #b69865;
     --color-primary-500: #ddc192;
-    --color-primary-600: #ecd8b5;
+    --color-primary-600: #ffebc8;
     --color-primary-700: #fff2db;
 
     --color-accent-100: #202c08;
     --color-accent-200: #384d0f;
     --color-accent-300: #567519;
-    --color-accent-400: #7fa92a;
+    --color-accent-400: #6b931b;
     --color-accent-500: #abd15d;
     --color-accent-600: #c0ec67;
     --color-accent-700: #dfff9e;
@@ -109,6 +112,10 @@
     color: var(--color-accent-700);
   }
 
+  .border-primary-400 {
+    border-color: var(--color-primary-400);
+  }
+
 
   .houseProp {
     @apply flex flex-row items-center;
@@ -125,6 +132,30 @@
   .checkbox{
     @apply flex items-center gap-2 text-4xl lg:text-base;
   }
+  .headerItem{
+    @apply h-30 lg:h-20 text-2xl lg:text-base font-bold flex justify-center items-center text-center px-10 cursor-pointer;
+    color: var(--color-primary-500);
+  }
+  .paddings{
+    @apply px-2 lg:px-4 py-1 lg:py-2;
+  }
 
+}
 
+@layer utilities {
+  .hover\:text-primary-400:hover {
+    color: var(--color-primary-400);
+  }
+
+  .hover\:bg-primary-600:hover {
+    background-color: var(--color-primary-600);
+  }
+
+  .hover\:bg-accent-600:hover {
+    background-color: var(--color-accent-600);
+  }
+
+  .inter-font {
+    font-family: 'Inter', sans-serif;
+  }
 }

@@ -3,6 +3,7 @@ import HouseCard from "../components/HouseCard.astro";
 import "../styles/tailwind.css";
 import type { House } from "../model/house";
 import Header from "../components/Header.astro";
+import RentHouseCard from "../components/RentHouseCard.astro";
 const PORT = process.env.PORT || 3001;
 
 const response = await fetch(`http://localhost:${PORT}/houses`);
@@ -28,6 +29,9 @@ const rentableQuantity = rentableHouse.length;
         showRentable: false,
         toggleRentable() {
           this.showRentable = !this.showRentable;
+          this.updateView();
+        },
+        updateView() {
           document
             .getElementById("rentable")
             .classList.toggle("hidden", !this.showRentable);
@@ -35,55 +39,73 @@ const rentableQuantity = rentableHouse.length;
             .getElementById("non-rentable")
             .classList.toggle("hidden", this.showRentable);
           document
-            .getElementById("nav")
-            .classList.toggle("translate-x-0", !this.showRentable);
-          document
-            .getElementById("nav")
-            .classList.toggle("translate-x-[68%]", this.showRentable);
-          document
-            .getElementById("nav")
-            .classList.toggle("lg:translate-x-[80%]", this.showRentable);
-          document
             .getElementById("content")
             .classList.toggle("is-rentable", this.showRentable);
+          document
+            .getElementById("option1")
+            .classList.toggle("bg-white", this.showRentable);
+          document
+            .getElementById("option1")
+            .classList.toggle("bg-primary-500", !this.showRentable);
+          document
+            .getElementById("option1")
+            .classList.toggle("text-primary-500", this.showRentable);
+          document
+            .getElementById("option1")
+            .classList.toggle("text-white", !this.showRentable);
+          document
+            .getElementById("option2")
+            .classList.toggle("bg-accent-500", this.showRentable);
+          document
+            .getElementById("option2")
+            .classList.toggle("bg-white", !this.showRentable);
+          document
+            .getElementById("option2")
+            .classList.toggle("text-white", this.showRentable);
+          document
+            .getElementById("option2")
+            .classList.toggle("text-accent-500", !this.showRentable);
         },
       };
+
+      // Aplica los estilos iniciales al cargar la página
+      window.addEventListener("DOMContentLoaded", () => {
+        window.houseView.updateView();
+      });
     </script>
-    <style>
-      #content.is-rentable {
-        background-color: #7fa92a; /* no funciona aquí, así que sustituye directamente */
-        background-color: #7fa92a !important; /* ejemplo de accent-400 */
-      }
-    </style>
   </head>
-  <body class="font-sans bg-primary-600">
+  <body class="inter-font">
     <Header />
     <main
       id="content"
-      class="flex-col mt-30 lg:mt-20 transition-all duration-500 ease-in-out bg-accent-500"
+      class="flex-col mt-30 lg:mt-20 transition-all duration-500 ease-in-out"
     >
       <nav
         id="nav"
-        class="flex h-20 transition-transform duration-500 ease-in-out transform"
+        class="flex pt-5 h-20 justify-center"
       >
         <button
-          class="bg-accent-400 text-white font-bold flex justify-center items-center text-center px-10 cursor-pointer"
-          onclick="houseView.toggleRentable()">COMPRAR</button
+          id="option1"
+          class="text-white font-bold flex justify-center items-center text-center px-10 cursor-pointer rounded-xl"
+          onclick="houseView.toggleRentable()">QUIERO COMPRAR</button
         >
         <button
-          class="bg-accent-500 text-white font-bold flex justify-center items-center text-center px-10 cursor-pointer"
+          id="option2"
+          class="text-white font-bold flex justify-center items-center text-center px-10 cursor-pointer rounded-xl"
           onclick="houseView.toggleRentable()">ALQUILAR</button
         >
       </nav>
 
-      <section
-        id="non-rentable"
-        class="justify-items-center bg-accent-400 py-5"
-      >
-      <h1 class="text-3xl text-white mb-6">
-        En OasisVive tenemos {soldableQuantity === 1 ? <strong>{soldableQuantity} casa</strong> : <strong>{soldableQuantity} casa</strong> } en venta
-        para tí en Valencia.
-      </h1>
+      <section id="non-rentable" class="justify-items-center py-5 px-8">
+        <h1 class="text-3xl text-primary-400 mb-6">
+          En OasisVive tenemos {
+            soldableQuantity === 1 ? (
+              <strong>{soldableQuantity} casa</strong>
+            ) : (
+              <strong>{soldableQuantity} casa</strong>
+            )
+          } en venta para tí en Valencia.
+        </h1>
         {
           soldableHouse.map((house: House) => (
             <HouseCard key={house.id} house={house} />
@@ -91,13 +113,15 @@ const rentableQuantity = rentableHouse.length;
         }
       </section>
 
-      <section
-        id="rentable"
-        class="justify-items-center bg-accent-500 py-5 hidden"
-      >
-        <h1 class="text-3xl text-white mb-6">
-          En OasisVive tenemos {rentableQuantity === 1 ? <strong>{rentableQuantity} casa</strong> : <strong>{rentableQuantity} casa</strong> } en alquiler
-          para tí en Valencia.
+      <section id="rentable" class="justify-items-center py-5 px-8 hidden">
+        <h1 class="text-3xl text-accent-400 mb-6">
+          En OasisVive tenemos {
+            rentableQuantity === 1 ? (
+              <strong>{rentableQuantity} casa</strong>
+            ) : (
+              <strong>{rentableQuantity} casa</strong>
+            )
+          } en alquiler para tí en Valencia.
         </h1>
         {
           rentableHouse.map((house: House) => (
