@@ -29,6 +29,7 @@ if (!res.ok) {
 }
 const house: House = await res.json();
 const imagesArray: HouseImage[] = [...house.images];
+const isRentable = house.rentable
 ---
 
 <html lang="es">
@@ -37,10 +38,10 @@ const imagesArray: HouseImage[] = [...house.images];
     <title>{house.title} | OasisLive</title>
     <meta name="description" content={house.description} />
   </head>
-  <body class="bg-primary-600">
+  <body class="inter-font">
     <Header />
     <main class="justify-items-center mt-30 lg:mt-20">
-      <div class="bg-accent-500 w-full lg:w-200">
+      <div class=`${isRentable ? "bg-accent-700" : "bg-primary-700"} w-full lg:w-200 shadow-2xl`>
         {
           house.images?.length > 0 ? (
             <Carrousel client:load images={imagesArray} />
@@ -49,22 +50,22 @@ const imagesArray: HouseImage[] = [...house.images];
           )
         }
         <div class="px-4 py-8 lg:py-4">
-          <h1 class="text-7xl lg:text-4xl font-bold text-white">
+          <h1 class="text-7xl lg:text-4xl font-bold text-black">
             {house.title}
           </h1>
-          <p class="pt-8 lg:pt-2 pb-2 text-7xl lg:text-5xl font-extrabold">
+          <p class=`w-100 lg:w-70 px-8 lg:px-4 py-4 lg:py-2 mt-8 lg:mt-4 ${isRentable ? "bg-primary-500" : "bg-accent-500"} text-white text-7xl lg:text-5xl font-extrabold rounded-xl text-center`>
             {house.price.toLocaleString()} €
           </p>
-          <h2 class="text-3xl lg:text-base text-accent-200">{house.address}</h2>
-          <p class="mt-2 lg:mt-0 text-3xl lg:text-base text-accent-300">
-            {house.living_area} m² | {house.bedrooms} hab. | {house.flat}
+          <h2 class=`text-5xl lg:text-2xl mt-8 lg:mt-4 ${isRentable ? "text-primary-200" : "text-accent-200"}`>{house.address}</h2>
+          <p class=`mt-2 lg:mt-0 text-4xl lg:text-xl ${isRentable ? "text-primary-300" : "text-accent-300"}`>
+            {house.living_area} m² | {house.bedrooms} hab. {house.flat && `| ${house.flat}`} 
           </p>
-          <p class="mt-10 lg:mt-5 mb-4 lg:mb-0 font-bold text-4xl lg:text-base">
+          <p class="mt-10 lg:mt-5 mb-4 lg:mb-0 font-bold text-4xl lg:text-base text-primary-100">
             Descripción del vendedor:
           </p>
           <h3 class="text-4xl lg:text-base">{house.description}</h3>
 
-          <p class="mt-10 lg:mt-5 mb-4 lg:mb-0 font-bold text-4xl lg:text-base">
+          <p class="mt-10 lg:mt-5 mb-4 lg:mb-0 font-bold text-4xl lg:text-base text-primary-100">
             Características básicas:
           </p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 px-4 py-4">
@@ -88,14 +89,14 @@ const imagesArray: HouseImage[] = [...house.images];
               <div class="scale-200 lg:scale-100"><RulerIcon /></div><p
                 class="housePropText"
               >
-                {house.total_area} m² de area total
+                {house.total_area} m² area total
               </p>
             </div>
 
             <div class="houseProp">
               <div class="scale-200 lg:scale-100"><RulerLineIcon /></div>
               <p class="housePropText">
-                {house.living_area} m² de area habitable
+                {house.living_area} m² area habitable
               </p>
             </div>
 
@@ -196,12 +197,12 @@ const imagesArray: HouseImage[] = [...house.images];
             </div>
           </div>
 
-          <div id="map-container" class="z-10">
+          <div id="map-container" class="z-10 mb-50 lg:mb-5">
             <MapLoader client:only="react" address={house.mapAddress} />
           </div>
         </div>
       </div>
+      <QuickCall />
     </main>
-    <QuickCall />
   </body>
 </html>

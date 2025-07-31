@@ -124,40 +124,40 @@ const Form = () => {
         name="title"
         placeholder="Nombre de la casa"
         required
-        className="input bg-accent-600 textInput"
+        className="input textInput"
       />
       <input
         type="number"
         name="price"
         placeholder="Precio"
         required
-        className="input bg-accent-600 textInput"
+        className="input textInput"
       />
       <textarea
         name="description"
         placeholder="Descripción"
         required
-        className="input bg-accent-600 h-30 textInput"
+        className="input h-30 textInput"
       ></textarea>
       <input
         type="text"
         name="flat"
         placeholder="Planta"
-        className="input bg-accent-600 textInput"
+        className="input textInput"
       />
       <input
         type="text"
         name="address"
         placeholder="Dirección"
         required
-        className="input bg-accent-600 textInput"
+        className="input textInput"
       />
       <input
         type="text"
         name="mapAddress"
         placeholder="Dirección para mapa"
         required
-        className="input bg-accent-600 textInput"
+        className="input textInput"
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
       <input
@@ -165,35 +165,35 @@ const Form = () => {
         name="bedrooms"
         placeholder="Cuartos"
         required
-        className="input bg-accent-600 textInputColumn"
+        className="input textInputColumn"
       />
       <input
         type="number"
         name="bathrooms"
         placeholder="Baños"
         required
-        className="input bg-accent-600 textInputColumn"
+        className="input bg-white textInputColumn"
       />
       <input
         type="number"
         name="total_area"
         placeholder="Area Total (m²)"
         required
-        className="input bg-accent-600 textInputColumn"
+        className="input textInputColumn"
       />
       <input
         type="number"
         name="living_area"
         placeholder="Area Habitable (m²)"
         required
-        className="input bg-accent-600 textInputColumn"
+        className="input textInputColumn"
       />
       <input
         type="number"
         name="construction_year"
         placeholder="Año de construcción"
         required
-        className="input bg-accent-600 textInputColumn"
+        className="input textInputColumn"
       />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
@@ -243,7 +243,7 @@ const Form = () => {
         name="images"
         multiple
         accept="image/*"
-        className="input bg-primary-500 p-2 cursor-pointer hover:bg-white"
+        className="input bg-accent-700 mt-8 lg:mt-4 text-3xl lg:text-base p-2 cursor-pointer hover:bg-white"
         onChange={handleFileChange}
       />
       {selectedFiles.length > 0 && (
@@ -255,7 +255,7 @@ const Form = () => {
                 key={index}
                 src={url}
                 alt={`preview-${index}`}
-                className="w-full h-20 object-cover my-4"
+                className="w-full h-30 object-cover my-2"
                 onLoad={() => URL.revokeObjectURL(url)}
               />
             );
@@ -266,7 +266,7 @@ const Form = () => {
         type="submit"
         className=" bg-accent-400 text-white p-4 lg:p-2 text-4xl lg:text-base rounded hover:bg-white hover:text-black"
       >
-        Create House
+        Crear casa
       </button>
     </form>
   );

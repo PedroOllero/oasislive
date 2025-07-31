@@ -2,6 +2,7 @@
 import BedIcon from "../components/icons/BedIcon.astro";
 import BathIcon from "../components/icons/BathIcon.astro";
 import RulerIcon from "../components/icons/RulerIcon.astro";
+import HammerIcon from "../components/icons/HammerIcon.astro";
 
 const { house }: { house: House } = {
   house: {
@@ -27,7 +28,7 @@ const { house }: { house: House } = {
     active: false,
     rentable: false,
     construction_year: 0,
-    images: []
+    images: [],
   },
   ...Astro.props,
 };
@@ -40,33 +41,71 @@ const houseImages: HouseImage[] = house.images.map((item) => {
 });
 ---
 
-<article class="bg-primary-600 mb-5 cursor-pointer relative">
-  <a href={`/house/${house.id}`} class="justify-center items-start flex flex-row cursor-pointer">
-    {house.images && house.images.length > 0 && (
-    <img
-      src={houseImages[0].url}
-      alt=""
-      class="cover w-[700px] aspect-video object-cover"
-    />
-    )}
+<article
+  class=`${house.rentable ? "bg-accent-700 hover:bg-accent-600" : "bg-primary-700 hover:bg-primary-600"} mb-5 cursor-pointer relative rounded-xl shadow-2xl hover:scale-[102%] transform duration-300 ease-in-out`
+>
+  <a
+    href={`/house/${house.id}`}
+    class="justify-center items-start flex flex-row cursor-pointer"
+  >
+    {
+      house.images && house.images.length > 0 && (
+        <img
+          src={houseImages[0].url}
+          alt=""
+          class="cover w-[700px] aspect-video object-cover rounded-l-xl"
+        />
+      )
+    }
     <div class="p-5 w-[400px] flex flex-col justify-start items-start">
-      <h1 class="text-4xl font-semibold">{house.title}</h1>
-      <p class="text-gray-600 text-2xl lg:text-base mt-2">{house.address}</p>
-      <p class="mb-4 font-bold text-3xl lg:text-2xl text-accent-400">
+      <h1 class="text-3xl lg:text-4xl font-semibold">{house.title}</h1>
+      <p class="text-primary-200 text-2xl lg:text-base my-2">{house.address}</p>
+      <p
+        class=`mb-4 paddings ${house.rentable ? "bg-primary-500" : "bg-accent-500"} font-bold text-3xl lg:text-4xl text-white rounded-xl`
+      >
         €{house.price.toLocaleString()}
       </p>
-      <div class="houseProp mb-2">
-        <div class="scale-100"><BedIcon /></div><p class="pl-8 lg:pl-4 text-2xl lg:text-base">{house.bedrooms} cuartos</p>
-      </div>
 
-      <div class="houseProp mb-2">
-        <div class="scale-100"><BathIcon /></div><p class="pl-8 lg:pl-4 text-2xl lg:text-base">{house.bedrooms} baños</p>
-      </div>
+      <p class="hidden lg:inline">
+        {
+          house.description.split(" ").length > 20
+            ? house.description.split(" ").slice(0, 20).join(" ") + "..."
+            : house.description
+        }
+      </p>
 
-      <div class="houseProp">
-        <div class="scale-100"><RulerIcon /></div><p class="pl-8 lg:pl-4 text-2xl lg:text-base">
-          {house.total_area} m² de area total
-        </p>
+      <div class="grid grid-cols-2 mt-4 opacity-50 w-full">
+        <div class="houseProp mb-1">
+          <div class="scale-100"><BedIcon /></div><p
+            class="pl-2 lg:pl-4 text-xl lg:text-base"
+          >
+            {house.bedrooms} cuartos
+          </p>
+        </div>
+
+        <div class="houseProp mb-1">
+          <div class="scale-100"><BathIcon /></div><p
+            class="pl-2 lg:pl-4 text-xl lg:text-base"
+          >
+            {house.bedrooms} baños
+          </p>
+        </div>
+
+        <div class="houseProp">
+          <div class="scale-100"><RulerIcon /></div><p
+            class="pl-2 lg:pl-4 text-xl lg:text-base"
+          >
+            {house.total_area} m²
+          </p>
+        </div>
+
+        <div class="houseProp">
+          <div class="scale-100"><HammerIcon /></div><p
+            class="pl-2 lg:pl-4 text-xl lg:text-base"
+          >
+            {house.construction_year}
+          </p>
+        </div>
       </div>
 
       <!-- <div class="w-full flex justify-center absolute bottom-5 left-87">

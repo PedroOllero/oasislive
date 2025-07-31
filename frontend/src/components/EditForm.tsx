@@ -343,7 +343,7 @@ export const EditForm = ({ houseId }: { houseId: number }) => {
         name="images"
         multiple
         accept="image/*"
-        className="input bg-primary-500 p-4 lg:p-2 text-4xl lg:text-base cursor-pointer hover:bg-white"
+        className="input bg-accent-700 p-4 lg:p-2 text-4xl lg:text-base cursor-pointer hover:bg-white rounded-md"
         onChange={handleFileChange}
       />
       {selectedFiles.length > 0 && (
