@@ -1,0 +1,62 @@
+---
+import Header from "../components/Header.astro";
+import MapLoader from "../components/MapLoader";
+import "../styles/tailwind.css";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="../../public/OasisLogoCamel.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Oasis | Contacto</title>
+  </head>
+  <body class="inter-font text-white">
+    <Header />
+    <main
+      class="flex flex-col items-center mt-30 lg:mt-20 bg-primary-500 min-h-screen"
+    >
+      <section class="lg:w-[50%] mt-8 px-4">
+        <h2 class="text-5xl font-bold mb-8 text-white">Sobre nosotros</h2>
+        <h1 class="mb-6 text-xl">
+          Somos una inmobiliaria con base en <strong>Valencia</strong>, especializada en ofrecer
+          soluciones habitacionales tanto para quienes desean alquilar como para
+          quienes buscan comprar.
+        </h1>
+        <p class="mb-6 text-xl">
+          Nuestro enfoque es <strong>cercano, honesto y profesional</strong>: tratamos a cada
+          cliente con familiaridad y respeto, como si formara parte de nuestra
+          propia comunidad.
+        </p>
+        <p class="mb-6 text-xl">
+          En nuestra cartera encontrarás opciones para <strong>todos los presupuestos</strong>,
+          desde viviendas adaptadas para quienes empiezan hasta propiedades de
+          alto standing. Nos comprometemos a adaptarnos a tus necesidades
+          específicas: ya sea buscar la casa ideal, ajustar el precio, o
+          encontrar esa ubicación perfecta.
+        </p>
+        <p class="mb-6 text-xl">
+          Cuidamos especialmente la relación con nuestros inquilinos: estamos
+          siempre disponibles, atentos a los detalles y cercanos en cualquier
+          gestión que necesiten. <strong>Tu satisfacción es nuestra prioridad.</strong> 
+        </p>
+      </section>
+      <section class="lg:w-[50%] mt-8 px-4">
+        <h2 class="text-5xl font-bold mb-4 text-white">Contáctanos</h2>
+        <div class="flex flex-row justify-start items-center-safe">
+          <img src="../OasisLogo.png" alt="Logo Oasis" class="w-30 lg:w-50" />
+          <ul class="list-disc pl-5 mt-4">
+            <li class="lg:text-2xl text-base font-bold mb-4">Teléfono: 123 456 789</li>
+            <li class="lg:text-2xl text-base font-bold mb-4">Email: contacto@inmobiliaria.com</li>
+            <li class="lg:text-2xl text-base font-bold mb-4">Dirección: Calle Ficticia 123, Ciudad</li>
+          </ul>
+        </div>
+        <MapLoader
+          client:only="react"
+          address="C/ de les Alqueries de Bellver, 21, Benicalap, 46035 València"
+        />
+      </section>
+    </main>
+  </body>
+</html>
